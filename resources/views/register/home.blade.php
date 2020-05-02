@@ -1,0 +1,62 @@
+@extends('templates.base')
+
+@section('title', 'PPDB - SMKS Teruna Padangsidimpuan')
+
+@section('content')
+
+    <div class="grid grid-cols-2">
+        <div class="w-full mt-20 px-10 pt-6 pb-8 mb-4 text-black">
+            <h3 class="font-bold text-xl mb-3">Alur Pendaftaran Siswa Baru</h3>
+            <ol class="list-decimal list-inside">
+                <li>Daftarkan akun anda untuk mendapatkan nomor pendaftaran</li>
+                <li>Lakukan pengisian untuk keperluan pemberkasan</li>
+                <li>Pilih jurusan yang diminati oleh siswa</li>
+                <li>Lakukan pembayaran biaya awal sekolah dan lampirkan bukti pembayaran</li>
+                <li>Unduh bukti pendaftaran dan serahkan ke pihak sekolah untuk divalidasi ulang saat pendaftaran ulang</li>
+            </ol>
+            <div class="mt-10">
+                <i><b>Penting</b> : Dengan melakukan pendaftaran ke pihak sekolah dengan ini dinyatakan bahwa pihak siswa dan orang tua telah menyetujui aturan dan tata tertib yang berlaku di SMK Swasta Teruna Padangsidipuan<i>
+            </div>
+        </div>
+        <div class="w-full max-w-sm mx-auto mt-20">
+            @if($message)
+                {!! getErrorMessage($message) !!}
+            @endif
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="{{ url('/daftar') }}">
+                <div class="mb-3 text-center ">
+                    <h3 class="font-bold text-lg text-gray-700">Daftarkan Akun anda</h3>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                        Email
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="name" type="email" placeholder="Email" autofocus="autofocus">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        Nama Pengguna
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="username" type="text" placeholder="nama pengguna">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                        Kata Sandi
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" name="password" type="password" placeholder="password">
+                    <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
+                </div>
+                <div class="flex items-center justify-between mb-6">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        Daftar
+                    </button>
+                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{{ url('/masuk') }}">
+                        Sudah Terdaftar?
+                    </a>
+                </div>
+                <p class="text-center text-gray-700 text-xs">
+                    &copy;2020 SMK Swasta Teruna Padangsidimpuan
+                </p>
+            </form>
+        </div>
+    </div>
+@endsection
