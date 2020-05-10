@@ -11,14 +11,17 @@
 |
 */
 
+
+// Dev
+
 $router->get('/', 'HomeController@index');
-$router->get('/masuk', 'LoginController@index');
-$router->post('/masuk', 'LoginController@verify');
+$router->get('/masuk', ['middleware' => 'loginRedirector', 'uses' => 'LoginController@index']);
+$router->post('/masuk', ['middleware' => 'loginRedirector', 'uses' => 'LoginController@verify']);
 $router->get('/keluar', 'LoginController@logout');
 
 // User
-$router->get('/daftar', 'RegisterController@index');
-$router->post('/daftar', 'RegisterController@store');
+$router->get('/daftar', ['middleware' => 'loginRedirector', 'uses' => 'RegisterController@index']);
+$router->post('/daftar', ['middleware' => 'loginRedirector', 'uses' => 'RegisterController@store']);
 
 $router->get('/siswa', ['middleware' => ['login', 'reg'], 'uses' => 'Siswa\HomeController@index']);
 
@@ -29,6 +32,10 @@ $router->put('/siswa/pemberkasan', ['middleware' => ['login', 'reg'], 'uses' =>'
 $router->get('/siswa/sekolah', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\SekolahController@index']);
 $router->post('/siswa/sekolah', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\SekolahController@store']);
 $router->put('/siswa/sekolah', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\SekolahController@perbaharui']);
+
+$router->get('/siswa/orangtua', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\OrangtuaController@index']);
+$router->post('/siswa/orangtua', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\OrangtuaController@store']);
+$router->put('/siswa/orangtua', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\OrangtuaController@perbaharui']);
 
 $router->get('/siswa/persetujuan', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\PersetujuanController@index']);
 $router->post('/siswa/persetujuan', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\PersetujuanController@store']);
@@ -49,10 +56,6 @@ $router->get('/admin', [
 $router->get('/admin/search', [
     'middleware' => 'role',
     'uses' => 'Admin\HomeController@search'
-]);
-$router->post('/admin/all', [
-    // 'middleware' => 'role',
-    'uses' => 'Admin\HomeController@getAll'
 ]);
 
 $router->get('/admin/validasi', [

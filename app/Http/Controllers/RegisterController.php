@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Registration;
 use App\Models\Student;
+use App\Models\Score;
+use App\Models\ParentStudent;
 
 class RegisterController extends Controller
 {
@@ -66,6 +68,14 @@ class RegisterController extends Controller
             Student::Create([
                 'registration_id' => "T" . $registration_id,
                 'code_user' => $code_user
+            ]);
+
+            Score::Create([
+                'registration_id' => "T" . $registration_id
+            ]);
+
+            ParentStudent::Create([
+                'registration_id' => "T" . $registration_id
             ]);
 
             // Set session

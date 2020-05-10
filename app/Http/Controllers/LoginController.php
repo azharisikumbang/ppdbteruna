@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Registration;
 
 class loginController extends Controller
 {
@@ -39,8 +40,15 @@ class loginController extends Controller
 
         if ($user) {
             if (Hash::check($request->password, $user->password_user)) {
+
+                $registration = Registration::where('code_user', $user->code_user)
+                    ->get(['id_registration']);
+
                 // set session
-                $request->session()->put('registration_id', $request->registration_id);
+                if (isset($registration[0]['id_registration'])) {
+                    $request->session()->put('registration_id', $registration[0]['id_registration']);
+                }
+
                 $request->session()->put('username', $request->username);
                 $request->session()->put('code_user', $user->code_user);
                 $request->session()->put('role', $user->role_user);

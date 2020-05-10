@@ -9,6 +9,29 @@ if (!function_exists('bulanIndo')) {
     }
 }
 
+if (!function_exists('curr')) {
+    function curr($string, $comma = 2, $prefix = null)
+    {
+        return $prefix . number_format($string, $comma, ',', '.');
+    }
+}
+
+if (!function_exists('gender')) {
+    function gender($string = 'L')
+    {
+        return (strtoupper($string) == 'L') ? 'Laki - Laki' : 'Perempuan';
+    }
+}
+
+if (!function_exists('rt_rw')) {
+    function rt_rw($string)
+    {
+
+        return substr("00" . $string, -3, 3);
+    }
+}
+
+
 if (!function_exists('tanggal')) {
     function tanggal($date, $time = false)
     {

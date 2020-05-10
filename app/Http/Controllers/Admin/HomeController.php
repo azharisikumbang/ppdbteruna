@@ -79,12 +79,7 @@ class HomeController extends Controller
                 'registrasi' => $registrasi,
                 'validasi' => false,
                 'html' => [
-                        'color' => [
-                        'tervalidasi' => 'green',
-                        'pending' => 'gray',
-                        'menunggu' => 'yellow',
-                        'gagal' => 'red'
-                    ]
+                    'color' => config('custom.html.color')
                 ]
             ];
 

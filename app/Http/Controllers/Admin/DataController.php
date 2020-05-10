@@ -79,9 +79,9 @@ class DataController extends Controller
 
     public function detail(Request $request)
     {
-        $registrasi = Registration::with(['student', 'file', 'payment'])
-        ->where('id_registration', $request->regid)
-        ->first();
+        $registrasi = Registration::with(['student', 'file', 'payment', 'parent', 'score'])
+            ->where('id_registration', $request->regid)
+            ->first();
 
         $data = [
             'username' => $request->session()->get('username'),
@@ -136,12 +136,8 @@ class DataController extends Controller
             'code_user' => $request->session()->get('code_user'),
             'validasi' => $validasi,
             'html' => [
-                'color' => [
-                    'tervalidasi' => 'green',
-                    'pending' => 'gray',
-                    'menunggu' => 'yellow',
-                    'gagal' => 'red',
-                ], $html
+                'color' => config('custom.html.color'),
+                $html
             ]
         ];
     }

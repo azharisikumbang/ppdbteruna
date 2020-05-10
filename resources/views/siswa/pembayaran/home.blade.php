@@ -8,11 +8,12 @@
             <ul class="flex justify-between">
               <li class="mr-3">
                 <ul class="py-3">
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-gray-400 h-5 border-radius">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-gray-400 h-3 rounded-full">&nbsp;</li>
                 </ul>
               </li>
               <li class="mr-3">

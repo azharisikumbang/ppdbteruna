@@ -15,7 +15,7 @@ class Login
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->session()->has('username')) {
+        if (!$request->session()->has('username') || (!$request->session()->has('registration_id') && $request->session()->get('role') !== 'admin')) {
             return redirect('/masuk');
         }
 

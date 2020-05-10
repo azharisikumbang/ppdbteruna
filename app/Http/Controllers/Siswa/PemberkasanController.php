@@ -20,6 +20,9 @@ class PembekasanController extends Controller
         $data = [
             'username' => $request->session()->get('username'),
             'provinsi' => config('custom.provinsi'),
+            'status_pendaftar' => config('custom.status_pendaftar'),
+            'orangtua_pendaftar' => config('custom.orangtua_pendaftar'),
+            'agama_pendaftar' => config('custom.agama_pendaftar'),
             'message' => $request->session()->get('message')
         ];
         return view('siswa.pemberkasan.home', $data);
@@ -29,12 +32,20 @@ class PembekasanController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'nama_depan' => 'required',
-            'nama_belakang' => 'required',
+            'nik_siswa' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
+            'agama' => 'required',
+            'status' => 'required',
+            'orangtua' => 'required',
             'alamat' => 'required',
+            'desa' => 'required',
+            'kecamatan' => 'required',
             'kota' => 'required',
             'provinsi' => 'required',
+            'pos' => 'required',
+            'rt' => 'required',
+            'rw' => 'required',
             'handphone' => 'required'
         ], [
             'required' => 'Kolom :attribute masih kosong!',
@@ -57,9 +68,22 @@ class PembekasanController extends Controller
                 ->update(['current_registration' => 'sekolah']);
 
             Student::where('registration_id', $request->session()->get('registration_id'))->update([
-                'name_student' => $request->nama_depan . ' ' . $request->nama_belakang,
-                'address_student' => $request->alamat . ", " . $request->kota . ", " . $request->provinsi,
+                'name_student' => $request->nama_depan,
+                'birthplace_student' => $request->tempat_lahir,
+                'birthdate_student' => $request->tanggal_lahir,
+                'address_student' => $request->alamat,
                 'phone_student' => $request->handphone,
+                'status_student' => $request->status,
+                'parent_student' => $request->orangtua,
+                'agama_student' => $request->agama,
+                'gender_student' => $request->jenis_kelamin,
+                'nik_student' => substr($request->nik_siswa, 0, 16),
+                'desa_student' => $request->desa,
+                'kecamatan_student' => $request->kecamatan,
+                'kota_student' => $request->kota,
+                'provinsi_student' => $request->provinsi,
+                'pos_student' => $request->pos,
+                'rt_rw_student' => $request->rt . "/" . $request->rw,
                 'code_user' => $request->session()->get('code_user'),
             ]);
 

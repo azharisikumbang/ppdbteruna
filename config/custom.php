@@ -159,5 +159,16 @@ return [
             'name' => 'Yogyakarta',
             'iso_code' => 'YO',
         ]
+    ],
+    'status_pendaftar' => ['kandung', 'tiri'],
+    'orangtua_pendaftar' => ['lengkap', 'yatim', 'piatu', 'yatim piatu'],
+    'agama_pendaftar' => ['islam', 'kristen protestan', 'kristen katolik', 'buddha', 'hindu', 'lainnya'],
+    'html' => [
+        'color' => [
+            'tervalidasi' => 'green',
+            'pending' => 'gray',
+            'menunggu' => 'yellow',
+            'gagal' => 'red'
+        ]
     ]
 ];

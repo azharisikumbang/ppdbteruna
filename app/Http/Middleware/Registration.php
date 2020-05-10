@@ -29,6 +29,9 @@ class Registration
                 case 'sekolah':
                     $redirect = '/siswa/sekolah';
                     break;
+                case 'orangtua':
+                    $redirect = '/siswa/orangtua';
+                    break;
                 case 'pembayaran':
                     $redirect = '/siswa/pembayaran';
                     break;

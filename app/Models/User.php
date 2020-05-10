@@ -26,6 +26,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function student()
     {
-        return $this->hasMany(\App\Models\Registration::class, 'id_registration');
+        return $this->belongsTo(\App\Models\Registration::class, 'registration_id');
     }
 }

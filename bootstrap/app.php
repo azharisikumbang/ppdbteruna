@@ -88,6 +88,7 @@ $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
     'role' => App\Http\Middleware\Role::class,
     'login' => App\Http\Middleware\Login::class,
+    'loginRedirector' => App\Http\Middleware\LoginRedirector::class,
     'reg' => App\Http\Middleware\Registration::class,
 ]);
 

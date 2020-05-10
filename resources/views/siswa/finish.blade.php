@@ -8,11 +8,12 @@
             <ul class="flex justify-between">
               <li class="mr-3">
                 <ul class="py-3">
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
-                    <li class="inline-block w-6 bg-green-400 h-5 border-radius">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
+                    <li class="inline-block w-3 bg-green-400 h-3 rounded-full">&nbsp;</li>
                 </ul>
               </li>
               <li class="mr-3">
@@ -26,15 +27,20 @@
         </div>
 
         <div class="my-10 text-gray-700">
-            <div class="text-4xl">Terima Kasih!</div>
-            <div class="text-xl">Data anda sedang kami diproses.</div>
+            <div class="text-4xl">{{ $message['title'] }}</div>
+            <div class="text-xl">
+                {{ $message['body'] }}
+            </div>
             <div class="mt-4 w-3/4 mx-auto">
-                <p>Silahkan unduh bukti intergrasi berikut dan untuk dilakukan validasi pada saat pendaftaran ulang. Anda juga bisa melakukan pengecekan berkala pada halaman web ini untuk mengetahui perkembangan validasi data anda.</p>
+                <p>Silahkan unduh dan cetak dokumen biodata dan bukti intergrasi berikut untuk selanjutnya dilakukan validasi pada saat pendaftaran ulang. {{ $message['desc'] }}</p>
             </div>
 
             <div class="flex justify-center mt-6">
                 <div class="text-white shadow text-center bg-green-400 rounded-full px-4 py-2 m-2 hover:bg-green-500">
-                    <a href="{{ url('/siswa/download') }}">Unduh Tanda Integrasi</a>
+                    <a href="{{ url('/siswa/download?file=biodata') }}">Unduh Biodata</a>
+                </div>
+                <div class="text-white shadow text-center bg-green-400 rounded-full px-4 py-2 m-2 hover:bg-green-500">
+                    <a href="{{ url('/siswa/download?file=integrasi') }}">Unduh Tanda Integrasi</a>
                 </div>
             </div>
         </div>

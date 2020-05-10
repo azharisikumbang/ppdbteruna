@@ -48,5 +48,20 @@ class Registration extends Model
         );
     }
 
+    public function parent()
+    {
+        return $this->hasOne(
+            \App\Models\ParentStudent::class,
+            'registration_id'
+        );
+    }
+
+    public function score()
+    {
+        return $this->hasOne(
+            \App\Models\Score::class,
+            'registration_id'
+        );
+    }
 
 }
