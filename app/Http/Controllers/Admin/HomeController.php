@@ -30,6 +30,7 @@ class HomeController extends Controller
         $data = [
             'username' => $request->session()->get('username'),
             'role' => $request->session()->get('role'),
+            'csrf_token' => $request->session()->get('_token'),
             'html' => [
                 'sidebar' => true,
                 ['title' => 'Dashboard']
@@ -75,6 +76,7 @@ class HomeController extends Controller
             $data = [
                 'username' => $request->session()->get('username'),
                 'role' => $request->session()->get('role'),
+                'csrf_token' => $request->session()->get('_token'),
                 'code_user' => $request->session()->get('code_user'),
                 'registrasi' => $registrasi,
                 'validasi' => false,

@@ -28,8 +28,10 @@ class PembayaranController extends Controller
         $data = [
             'username' => $request->session()->get('username'),
             'registration_id' => $request->session()->get('registration_id'),
+            'bank_payment' => config('custom.bank_payment'),
             'nominal' => $nominal,
             'message' => $request->session()->get('message'),
+            'csrf_token' => $request->session()->get('_token')
         ];
 
         return view('siswa.pembayaran.home', $data);
@@ -40,6 +42,7 @@ class PembayaranController extends Controller
 
         $validate = Validator::make($request->all(), [
             'nama_rekening' => 'required',
+            'bank_rekening' => 'required',
             'nomor_rekening' => 'required',
             'nominal' => 'required',
             'file' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
@@ -49,9 +52,10 @@ class PembayaranController extends Controller
 
             if ($request->file('file')->isValid()) {
 
-                Payment::Create([
+                $update = Payment::Create([
                     'registration_id' => $request->session()->get('registration_id'),
                     'name_payment' => $request->nama_rekening,
+                    'bank_payment' => $request->bank_rekening,
                     'number_payment' => $request->nomor_rekening,
                     'code_user' => $request->session()->get('code_user')
                 ]);
@@ -67,8 +71,11 @@ class PembayaranController extends Controller
                     'code_user' => $request->session()->get('code_user')
                 ]);
 
-                Registration::where('id_registration', $request->session()->get('registration_id'))
-                ->update(['current_registration' => 'selesai', 'status_registration' => 'menunggu']);
+                if ($update) {
+                    Registration::where('id_registration', $request->session()->get('registration_id'))
+                    ->update(['current_registration' => 'selesai', 'status_registration' => 'menunggu']);
+                }
+
 
                 return redirect('/siswa/selesai');
             }

@@ -211,7 +211,7 @@
                         <div data-empty="true" style="margin-left: 20px;">j) Jenis Tempat Tinggal</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: {{ $data['student']->home_student }}</div>
+                        <div data-empty="true">: {{ ucwords($data['student']->home_student) }}</div>
                     </td>
                 </tr>
                 <tr>
@@ -219,7 +219,7 @@
                         <div data-empty="true" style="margin-left: 20px;">l) Apakah Penerima KPS/KIP/KKS/PKH</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: {{ $data['student']->accommodation_student }}</div>
+                        <div data-empty="true">: {{ ucwords($data['student']->accommodation_student) }}</div>
                     </td>
                 </tr>
                 <tr>
@@ -402,7 +402,7 @@
                     <td style="width: 49.1592%">
                         <div data-empty="true" style="margin-left: 40px;">d) Pekerjaan Wali</div>
                     </td>
-                    <td style="width: 50.7657%;">: {{ ($data['parent']->pekerjaan_wali != '') ? $data['parent']->pekerjaan_wali : '-' }}</td>
+                    <td style="width: 50.7657%;">: {{ ($data['parent']->nama_wali != '') ? $data['parent']->pekerjaan_wali : '-' }}</td>
                 </tr>
 
                 <tr>
@@ -410,6 +410,12 @@
                         <div data-empty="true" style="margin-left: 40px;">f) Penghasilan Wali Perbulan</div>
                     </td>
                     <td style="width: 50.7657%;">: {{ ($data['parent']->penghasilan_wali != '') ? curr($data['parent']->penghasilan_wali, 0, 'Rp. ') : '-' }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 49.1592%">
+                        <div data-empty="true" style="margin-left: 40px;">g) Pendidikan</div>
+                    </td>
+                    <td style="width: 50.7657%;">: {{ ($data['parent']->nama_wali != '') ? $data['parent']->pendidikan_wali : '-' }}</td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%"><br></td>

@@ -65,7 +65,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                           Nama Ayah
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_ayah" type="text" autofocus="autofocus">
+                        <input type="hidden" name="_token" value="{{ $csrf_token }}">
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_ayah" type="text" autofocus="autofocus" value="{{ $old['nama_ayah'] }}">
                       </div>
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
@@ -73,7 +74,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           Tempat Lahir Ayah
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tempat_lahir_ayah" type="text">
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tempat_lahir_ayah" type="text" value="{{ $old['tempat_lahir_ayah'] }}">
                       </div>
                       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
@@ -90,7 +91,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           Alamat Ayah
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="alamat_ayah" type="text">
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="alamat_ayah" type="text"  value="{{ $old['alamat_ayah'] }}">
                       </div>
                       <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
@@ -114,7 +115,16 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                           Pendidikan Ayah
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="pendidikan_ayah" type="text">
+                        <div class="relative">
+                          <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pendidikan_ayah">
+                            @foreach($pendidikan_orangtua as $item)
+                              <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                            @endforeach
+                          </select>
+                          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                        </div>
                       </div>
                   </div>
 
@@ -124,21 +134,31 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           Pekerjaan Ayah
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pekerjaan_ayah" type="text">
+                        <div class="relative">
+                          <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pekerjaan_ayah">
+                            @foreach($pekerjaan_orangtua as $item)
+                              <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                            @endforeach
+                              <option value="lainnya">Lainnya</option>
+                          </select>
+                          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                        </div>
                       </div>
                       <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
                           Penghasilan Ayah
                         </label>
                         <div class="relative">
-                           <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="penghasilan_ayah" type="number" step="500000" value="0">
+                           <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="penghasilan_ayah" type="number" step="500000" value="0"  value="{{ $old['penghasilan_ayah'] }}">
                         </div>
                       </div>
                       <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           No. Telepon
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="phone_ayah" type="text">
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="phone_ayah" type="text"  value="{{ $old['phone_ayah'] }}">
                       </div>
                   </div>
                 </div>
@@ -151,7 +171,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                           Nama ibu
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_ibu" type="text" >
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_ibu" type="text"  value="{{ $old['nama_ibu'] }}">
                       </div>
                   </div>
 
@@ -160,7 +180,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           Tempat Lahir ibu
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tempat_lahir_ibu" type="text">
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tempat_lahir_ibu" type="text"  value="{{ $old['tempat_lahir_ibu'] }}">
                       </div>
                       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
@@ -177,7 +197,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           Alamat ibu
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="alamat_ibu" type="text">
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="alamat_ibu" type="text"  value="{{ $old['alamat_ibu'] }}">
                       </div>
                       <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
@@ -201,7 +221,16 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                           Pendidikan Ibu
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="pendidikan_ibu" type="text">
+                        <div class="relative">
+                          <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pendidikan_ibu">
+                            @foreach($pendidikan_orangtua as $item)
+                              <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                            @endforeach
+                          </select>
+                          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                        </div>
                       </div>
                   </div>
 
@@ -210,21 +239,32 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           Pekerjaan ibu
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pekerjaan_ibu" type="text">
+                        <div class="relative">
+                          <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pekerjaan_ibu">
+                              <option value="ibu rumah tangga">Ibu Rumah Tangga</option>
+                            @foreach($pekerjaan_orangtua as $item)
+                              <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                            @endforeach
+                              <option value="lainnya">Lainnya</option>
+                          </select>
+                          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                        </div>
                       </div>
                       <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
                           Penghasilan ibu
                         </label>
                         <div class="relative">
-                           <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="penghasilan_ibu" type="number" step="500000" value="0">
+                           <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="penghasilan_ibu" type="number" step="500000" value="0"  value="{{ $old['penghasilan_ibu'] }}">
                         </div>
                       </div>
                       <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           No. Telepon
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="phone_ibu" type="text">
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="phone_ibu" type="text" value="{{ $old['phone_ibu'] }}">
                       </div>
                   </div>
                 </div>
@@ -287,7 +327,16 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                           Pendidikan Wali
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="pendidikan_wali" type="text">
+                        <div class="relative">
+                          <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pendidikan_wali">
+                            @foreach($pendidikan_orangtua as $item)
+                              <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                            @endforeach
+                          </select>
+                          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                        </div>
                       </div>
                   </div>
 
@@ -296,7 +345,17 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                           Pekerjaan wali
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pekerjaan_wali" type="text">
+                        <div class="relative">
+                          <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pekerjaan_wali">
+                            @foreach($pekerjaan_orangtua as $item)
+                              <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                            @endforeach
+                              <option value="lainnya">Lainnya</option>
+                          </select>
+                          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                        </div>
                       </div>
                       <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">

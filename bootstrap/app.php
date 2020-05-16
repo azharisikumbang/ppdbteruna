@@ -82,6 +82,7 @@ $app->configure('custom');
 
 $app->middleware([
     \Illuminate\Session\Middleware\StartSession::class,
+    App\Http\Middleware\VerifyCsrfToken::class,
 ]);
 
 $app->routeMiddleware([

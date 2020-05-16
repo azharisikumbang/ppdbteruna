@@ -23,7 +23,8 @@ class SekolahController extends Controller
             'username' => $request->session()->get('username'),
             'registration_id' => $request->session()->get('registration_id'),
             'jurusan' => config('custom.data.jurusan'),
-            'message' => $request->session()->get('message')
+            'message' => $request->session()->get('message'),
+            'csrf_token' => $request->session()->get('_token')
         ];
 
         return view('siswa.sekolah.home', $data);

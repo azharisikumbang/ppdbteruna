@@ -8,10 +8,10 @@
         <!--Left Col-->
         <div class="flex flex-col w-full md:w-3/5 justify-center text-center md:text-left md:mt-20 xl:mt-20 lg:mt-20">
             <p class="uppercase tracking-loose w-full">Ooups! Terjadi Kesalahan !</p>
-            <h1 class="my-4 text-5xl font-bold leading-tight">404 Page Not Found</h1>
-            <p class="leading-normal text-2xl mb-8">Halaman yang anda tuju tidak terdapat di layanan kami. Mohon periksa kembali tujuan anda.</p>
+            <h1 class="my-4 text-5xl font-bold leading-tight">{{ $status }} {{ $title }}</h1>
+            <p class="leading-normal text-2xl mb-8">{{ $body }}</p>
 
-            <div class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg inline-block">
+            <div class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg inline-block text-center">
                 <a href="{{ url('/')}}" class="">Kembali</a>
             </div>
 

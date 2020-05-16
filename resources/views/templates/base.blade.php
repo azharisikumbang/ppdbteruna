@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <title>PPDB SMK Teruna Padangsidimpuan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

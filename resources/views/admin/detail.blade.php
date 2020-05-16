@@ -132,7 +132,7 @@
               </tr>
               <tr>
                 <td class="border-b py-3 px-3">Pekerjaan</td>
-                <td class="border-b py-3 px-3">: {{ $registrasi['parent']['pekerjaan_wali'] }}</td>
+                <td class="border-b py-3 px-3">: {{ ($registrasi['parent']['nama_wali'] != '') ? $registrasi['parent']['pekerjaan_wali'] : '' }}</td>
               </tr>
               <tr>
                 <td class="border-b px-3 py-3 bg-gray-200">Penghasilan</td>
@@ -203,7 +203,7 @@
               </tr>
               <tr>
                 <td class="border-b py-3 px-3">No. Rekening</td>
-                <td class="border-b py-3 px-3">: {{ $registrasi['payment']['number_payment'] }}</td>
+                <td class="border-b py-3 px-3">: {{ $registrasi['payment']['number_payment'] }} ( {{ $registrasi['payment']['bank_payment'] }} )</td>
               </tr>
               <tr>
                 <td class="border-b px-3 py-3 bg-gray-200">Nominal Biaya Transfer</td>

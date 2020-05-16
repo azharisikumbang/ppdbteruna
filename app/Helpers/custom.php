@@ -64,9 +64,9 @@ if (!function_exists('setStatusByFile')) {
         for ($i=0; $i < $max; $i++) {
             if ($file[$i]->name_file === null || !isset($file[$i])) {
                 $found = true;
-                $message .= ($i == $max - 1) ? ' dan ' : "";
+                $message .= ($i + 1 == $max) ? ' dan ' : "";
                 $message .= $file[$i]->type_file;
-                $message .= ($i == $max - 1) ? '' : ", ";
+                $message .= ($i + 3 <= $max) ? ', ' : '';
             }
         }
 

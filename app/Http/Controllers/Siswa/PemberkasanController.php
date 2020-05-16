@@ -24,8 +24,11 @@ class PembekasanController extends Controller
             'status_pendaftar' => config('custom.status_pendaftar'),
             'orangtua_pendaftar' => config('custom.orangtua_pendaftar'),
             'agama_pendaftar' => config('custom.agama_pendaftar'),
+            'bantuan_pendaftar' => config('custom.bantuan_pendaftar'),
+            'home_pendaftar' => config('custom.home_pendaftar'),
             'message' => $request->session()->get('message'),
             'old' => $request->session()->get('old'),
+            'csrf_token' => $request->session()->get('_token')
         ];
         return view('siswa.pemberkasan.home', $data);
     }

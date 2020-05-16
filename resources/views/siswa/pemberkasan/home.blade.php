@@ -59,6 +59,7 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                         Nama Lengkap
                       </label>
+                      <input type="hidden" name="_token" value="{{ $csrf_token }}">
                       <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_depan" type="text" autofocus="autofocus" value="{{ $old['nama_depan'] }}">
                     </div>
                 </div>
@@ -138,13 +139,13 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Anak Ke
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="child_order" type="number" value="{{ $old['child_order'] }}" step="1" >
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="child_order" type="number" value="{{ $old['child_order'] ?? 1 }}" step="1" >
                     </div>
                     <div class="w-full xl:w-1/6 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Jmlh Saudara
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="siblings" type="number"  value="{{ $old['siblings'] }}" step="1">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="siblings" type="number"  value="{{ $old['siblings'] ?? 1 }}" step="1">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -199,13 +200,13 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         RT
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rt" type="text" value="{{ $old['rt'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rt" type="number" value="{{ $old['rt'] ?? 1 }}">
                     </div>
                     <div class="w-full xl:w-1/6 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         RW
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rw" type="text" value="{{ $old['rw'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rw" type="number" value="{{ $old['rw'] ?? 1 }}">
                     </div>
                     <div class="w-full xl:w-2/6 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
@@ -271,13 +272,31 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password">
                         Apakah Penerima KPS/KIP/KKS/PKH
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="accommodation" type="text" value="{{ $old['accommodation'] }}">
+                      <div class="relative">
+                        <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="accommodation">
+                          @foreach($bantuan_pendaftar as $item)
+                            <option value="{{ $item }}">{{ ucwords($item) }}</option>
+                          @endforeach
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                      </div>
                     </div>
                     <div class="w-full xl:w-1/2 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zip">
                         Jenis Tempat Tinggal
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="home" type="text" value="{{ $old['home'] }}">
+                      <div class="relative">
+                        <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="home">
+                          @foreach($home_pendaftar as $item)
+                            <option value="{{ $item }}">{{ ucwords($item) }}</option>
+                          @endforeach
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                      </div>
                     </div>
                 </div>
 

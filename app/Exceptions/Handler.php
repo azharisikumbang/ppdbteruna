@@ -8,6 +8,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
+use Illuminate\Support\Facades\App;
 
 class Handler extends ExceptionHandler
 {
@@ -49,7 +50,35 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        // return parent::render($request, $exception);
-        return view('errors.404');
+        if (App::environment(['local', 'staging'])) {
+            return parent::render($request, $exception);
+        }
+
+        // $status = app('Illuminate\Http\Response')->status();
+        // switch ($status) {
+        //     case 401:
+        //     case 402:
+        //     case 403:
+        //     case 404:
+        //         $responseView = '404';
+        //         $data['status'] = $responseView;
+        //         $data['title'] = 'Page Not Found';
+        //         $data['body'] = 'Halaman yang anda tidak memiliki izin untuk mengakses halaman ini. Mohon periksa kembali tujuan anda.';
+        //         break;
+
+        //     default:
+        //         $responseView = '500';
+        //         $data['status'] = $responseView;
+        //         $data['title'] = 'Unexpected Error';
+        //         $data['body'] = 'Maaf, halaman yang anda akses mengalami sedikit gangguan. mohon kembali lagi nanti.';
+        //         break;
+        // }
+
+        $responseView = '404';
+        $data['status'] = $responseView;
+        $data['title'] = 'Page Not Found';
+        $data['body'] = 'Halaman yang anda tidak memiliki izin untuk mengakses halaman ini. Mohon periksa kembali tujuan anda.';
+
+        return view('errors.page', $data);
     }
 }

@@ -12,10 +12,20 @@
                 <li>Lakukan pengisian untuk keperluan pemberkasan</li>
                 <li>Pilih jurusan yang diminati oleh siswa</li>
                 <li>Lakukan pembayaran biaya awal sekolah dan lampirkan bukti pembayaran</li>
-                <li>Unduh bukti pendaftaran dan serahkan ke pihak sekolah untuk divalidasi ulang saat pendaftaran ulang</li>
+                <li>Unduh bukti pendaftaran dan dan biodata anda, kemudian serahkan ke pihak sekolah untuk divalidasi ulang saat pendaftaran ulang</li>
             </ol>
-            <div class="mt-10">
+            <div class="mt-6">
                 <i><b>Penting</b> : Dengan melakukan pendaftaran ke pihak sekolah dengan ini dinyatakan bahwa pihak siswa dan orang tua telah menyetujui aturan dan tata tertib yang berlaku di SMK Swasta Teruna Padangsidipuan.<i>
+            </div>
+            <div class="mt-6">
+                <i><b>Kontak</b> :
+                    <ul class="list-unstyled list-inside">
+                        <li>Aslamiah Rangkuti (+62 813 6198 0199)</li>
+                        <li>Asman Efendi Hasibuan (+62 852 7570 9458)</li>
+                        <li>Roni Siallagan (+62 823 7033 2416)</li>
+                        <li>mail: smksterunapadangsidimpuan.adm@gmail.com</li>
+                    </ul>
+                <i>
             </div>
         </div>
         <div class="w-full max-w-sm mx-auto mt-8">
@@ -30,6 +40,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
                         Email
                     </label>
+                    <input type="hidden" name="_token" value="{{ $csrf_token }}">
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="name" type="email" placeholder="Email" autofocus="autofocus">
                 </div>
                 <div class="mb-4">

@@ -175,7 +175,7 @@
             <div class="w-1/2 lg:w-full">
                 <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                     <div class="flex-1 text-center">
-                        <h3 class="font-bold text-3xl" id="data-counter-all"><?= isset($registrasi['semua']->counter) ? $registrasi['semua']->counter : '0' ?></h3>
+                        <h3 class="font-bold text-3xl" id="data-counter-all">{{ $registrasi['semua']->counter ?? '0' }}</h3>
 
                         <h5 class="font-bold text-gray-500">Total Pendaftar</h5>
                     </div>
@@ -185,7 +185,7 @@
             <div class="w-1/2 lg:w-full">
                 <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                     <div class="flex-1 text-center">
-                        <h3 class="font-bold text-3xl" data-counter-valid="" id="data-counter-valid"><?= isset($registrasi['tervalidasi']->counter) ? $registrasi['tervalidasi']->counter : '0' ?></h3>
+                        <h3 class="font-bold text-3xl" data-counter-valid="" id="data-counter-valid">{{ $registrasi['tervalidasi']->counter ?? '0' }}</h3>
                         <h5 class="font-bold text-gray-500">Tervalidasi</h5>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
             <div class="w-1/2 lg:w-full">
                 <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                     <div class="flex-1 text-center">
-                        <h3 class="font-bold text-3xl" data-counter-waiting="" id="data-counter-waiting"><?= isset($registrasi['menunggu']->counter) ? $registrasi['menunggu']->counter : '0' ?></h3>
+                        <h3 class="font-bold text-3xl" data-counter-waiting="" id="data-counter-waiting">{{ $registrasi['menunggu']->counter ?? '0' }}</h3>
                         <h5 class="font-bold text-gray-500">Menunggu</h5>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
             <div class="w-1/2 lg:w-full">
                 <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                     <div class="flex-1 text-center">
-                        <h3 class="font-bold text-3xl" data-counter-pending="" id="data-counter-pending"><?= isset($registrasi['pending']->counter) ? $registrasi['pending']->counter : '0' ?></h3>
+                        <h3 class="font-bold text-3xl" data-counter-pending="" id="data-counter-pending">{{ $registrasi['pending']->counter ?? '0' }}</h3>
                         <h5 class="font-bold text-gray-500">Pending</h5>
                     </div>
                 </div>
@@ -212,7 +212,7 @@
             <div class="w-1/2 lg:w-full">
                 <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                     <div class="flex-1 text-center">
-                        <h3 class="font-bold text-3xl" data-counter-failure="" id="data-counter-failure"><?= isset($registrasi['gagal']->counter) ? $registrasi['gagal']->counter : '0' ?></h3>
+                        <h3 class="font-bold text-3xl" data-counter-failure="" id="data-counter-failure">{{ $registrasi['gagal']->counter ?? '0' }}</h3>
                         <h5 class="font-bold text-gray-500">Batal</h5>
                     </div>
                 </div>
@@ -239,6 +239,7 @@
     <script>
 
         function validate(event){
+            event.dataset._token = "<?= $csrf_token ?>"
             let message = 'Anda yakin ingin membatalkan pendaftar ini?';
             let color = 'red';
             let deleted = event.previousElementSibling

@@ -14,18 +14,13 @@ use App\Models\File;
 class DataController extends Controller
 {
 
-     public function index(Request $request, Response $response)
-    {
-        $data = Registration::with('student')->paginate();
-        return response()->json($data);
-    }
-
     public function validasi(Request $request)
     {
 
         $registrasi = $this->getData($request, ['status_registration' => 'menunggu']);
 
         $data = $this->setRenderData($request, $registrasi, ['title' => 'Form Validasi']);
+        $data['csrf_token'] = $request->session()->get('_token');
 
         return view('admin.validasi', $data);
     }
@@ -35,6 +30,7 @@ class DataController extends Controller
         $registrasi = $this->getAll($request);
 
         $data = $this->setRenderData($request, $registrasi, ['title' => 'Semua Data'], false);
+        $data['csrf_token'] = $request->session()->get('_token');
 
         return view('admin.validasi', $data);
     }
@@ -44,6 +40,7 @@ class DataController extends Controller
         $registrasi = $this->getData($request, ['status_registration' => $request->status]);
 
         $data = $this->setRenderData($request, $registrasi, ['title' => $request->status], false);
+        $data['csrf_token'] = $request->session()->get('_token');
 
         return view('admin.validasi', $data);
     }
@@ -87,7 +84,8 @@ class DataController extends Controller
             'username' => $request->session()->get('username'),
             'role' => $request->session()->get('role'),
             'registrasi' => $registrasi,
-            'code_user' => $request->session()->get('code_user')
+            'code_user' => $request->session()->get('code_user'),
+            'csrf_token' => $request->session()->get('_token')
         ];
 
         return view('admin.detail', $data);
@@ -104,7 +102,7 @@ class DataController extends Controller
                 $query->select('registration_id', 'name_file')->where('type_file', 'pembayaran');
             },
             'payment' => function($query) {
-                $query->select('registration_id', 'number_payment');
+                $query->select('registration_id', 'number_payment', 'bank_payment');
             }
         ])
         ->where($where)
@@ -121,7 +119,7 @@ class DataController extends Controller
                 $query->select('registration_id', 'name_file')->where('type_file', 'pembayaran');
             },
             'payment' => function($query) {
-                $query->select('registration_id', 'number_payment');
+                $query->select('registration_id', 'number_payment', 'bank_payment');
             }
         ])
         ->paginate(10, ['id_registration', 'status_registration']);

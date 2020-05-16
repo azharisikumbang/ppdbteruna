@@ -19,6 +19,7 @@ class loginController extends Controller
     {
         $data['message'] = $request->session()->get('message')['message'];
         $data['username'] = $request->session()->get('message')['username'];
+        $data['csrf_token'] = $request->session()->get('_token');
 
         return view('login.home', $data);
     }

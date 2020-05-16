@@ -163,6 +163,12 @@ return [
     'status_pendaftar' => ['kandung', 'tiri'],
     'orangtua_pendaftar' => ['lengkap', 'yatim', 'piatu', 'yatim piatu'],
     'agama_pendaftar' => ['islam', 'kristen protestan', 'kristen katolik', 'buddha', 'hindu', 'lainnya'],
+    'bantuan_pendaftar' => ['KPS', 'KIP', 'KKS', 'PKH', 'lainnya', 'tidak'],
+    'home_pendaftar' => ['bersama orang tua', 'bersama saudara', 'kontrak', 'kost', 'lainnya'],
+    'home_pendaftar' => ['bersama orang tua', 'bersama saudara', 'kontrak', 'kost', 'lainnya'],
+    'pekerjaan_orangtua' => ['petani', 'pedagang', 'wiraswasta', 'buruh', 'PNS', 'TNI / POLRI', 'Pegawai BUMN'],
+    'pendidikan_orangtua' => ['Tidak Mempunyai Riwayat Pendidikan', 'SD / Sederajat', 'SLTP / Sederajat', 'SLTA / Sederajat', 'Diploma I/II', 'Akademi / Diploma III / S. Muda', 'Diploma IV / Strata I (S1)', 'Strata II (S2)', 'Strata III (S3)'],
+    'bank_payment' => ['Bank Danamon',  'Bank BCA', 'Bank BNI', 'Bank BNI Syariah', 'Bank BRI', 'Bank BTN', 'Bank Muamlat', 'Bank Mandiri', 'Bank Mandiri Syariah', 'Bank Sumut', 'Bank Sumut Syariah', 'Lainnya'],
     'html' => [
         'color' => [
             'tervalidasi' => 'green',
@@ -171,6 +177,6 @@ return [
             'gagal' => 'red'
         ]
     ],
-    'upload_path' => '../public_html/ppdb/files/',
-    'images_path' => '../public_html/ppdb/images/'
+    'upload_path' => 'public/files/',
+    'images_path' => 'public/images/'
 ];

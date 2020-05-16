@@ -12,7 +12,7 @@
               * [{{ date("H:i", strtotime($value->updated_at)) }}]
               <strong><i>#<a class="hover:border-gray-900 border-dotted border-b-2 border-{{ $logger["{$value->status_registration}"][1] }}-400" href="{{ url('/admin/detail/' . $value->id_registration ) }}">{{ $value->id_registration }}</a></i></strong>
               {{ $logger["{$value->status_registration}"][0] }}
-              <?= ($value->status_registration == 'tervalidasi') ? $value['user']['username_user'] : '' ?>
+              {{ ($value->status_registration == 'tervalidasi') ? $value['user']['username_user'] : '' }}
             </li>
            @endforeach
         </ul>
@@ -35,7 +35,7 @@
                 @endforeach
                 <tr>
                     <td class="px-4 py-2 border-2 text-right font-bold">Total Pendaftar</td>
-                    <td class="px-4 py-2 border-2 text-center bg-gray-200"><?= isset($registrasi['semua']->counter) ? $registrasi['semua']->counter : '0' ?></td>
+                    <td class="px-4 py-2 border-2 text-center bg-gray-200">{{ $registrasi['semua']->counter ?? '0' }}</td>
                 </tr>
             @endisset
            </tbody>

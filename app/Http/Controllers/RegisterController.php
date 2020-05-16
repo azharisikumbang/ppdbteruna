@@ -22,6 +22,7 @@ class RegisterController extends Controller
     public function index(Request $request)
     {
         $data['message'] = $request->session()->get('message');
+        $data['csrf_token'] = $request->session()->get('_token');
         return view('register.home', $data);
     }
 

@@ -21,7 +21,11 @@ class OrangtuaController extends Controller
             'username' => $request->session()->get('username'),
             'registration_id' => $request->session()->get('registration_id'),
             'agama_form' => config('custom.agama_pendaftar'),
-            'message' => $request->session()->get('message')
+            'pekerjaan_orangtua' => config('custom.pekerjaan_orangtua'),
+            'pendidikan_orangtua' => config('custom.pendidikan_orangtua'),
+            'message' => $request->session()->get('message'),
+            'old' => $request->session()->get('old'),
+            'csrf_token' => $request->session()->get('_token')
         ];
 
         return view('siswa.orangtua.home', $data);
@@ -50,10 +54,7 @@ class OrangtuaController extends Controller
         ], ["required" => "Kolom :attribute masih kosong!"]);
 
         if (!$validate->fails()) {
-            Registration::where('id_registration', $request->session()->get('registration_id'))
-                ->update(['current_registration' => 'pembayaran']);
-
-            ParentStudent::where('registration_id', $request->session()->get('registration_id'))
+            $update = ParentStudent::where('registration_id', $request->session()->get('registration_id'))
                 ->update([
                     'nama_ayah' => $request->nama_ayah,
                     'tempat_lahir_ayah' => $request->tempat_lahir_ayah,
@@ -84,11 +85,38 @@ class OrangtuaController extends Controller
                     'pendidikan_wali' => $request->pendidikan_wali,
                 ]);
 
+                if ($update) {
+                    Registration::where('id_registration', $request->session()->get('registration_id'))
+                        ->update(['current_registration' => 'pembayaran']);
+                }
+
             return redirect('/siswa/pembayaran');
         }
 
+        $old = [
+            'nama_ayah' => $request->nama_ayah,
+            'tempat_lahir_ayah' => $request->tempat_lahir_ayah,
+            'tanggal_lahir_ayah' => $request->tanggal_lahir_ayah,
+            'alamat_ayah' => $request->alamat_ayah,
+            'penghasilan_ayah' => $request->penghasilan_ayah,
+            'pekerjaan_ayah' => $request->pekerjaan_ayah,
+            'agama_ayah' => $request->agama_ayah,
+            'phone_ayah' => $request->phone_ayah,
+            'nama_ibu' => $request->nama_ibu,
+            'tempat_lahir_ibu' => $request->tempat_lahir_ibu,
+            'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu,
+            'alamat_ibu' => $request->alamat_ibu,
+            'pekerjaan_ibu' => $request->pekerjaan_ibu,
+            'penghasilan_ibu' => $request->penghasilan_ibu,
+            'agama_ibu' => $request->agama_ibu,
+            'pendidikan_ayah' => $request->pendidikan_ayah,
+            'pendidikan_ibu' => $request->pendidikan_ibu,
+            'phone_ibu' => $request->phone_ibu,
+        ];
+
         $message = $validate->errors()->first();
         $request->session()->flash('message', $message);
+        $request->session()->flash('old', $old);
         return redirect('/siswa/orangtua');
 
     }

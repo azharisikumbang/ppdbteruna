@@ -9,7 +9,10 @@
         <div class="flex flex-col w-full md:w-3/5 justify-center text-center md:text-left md:mt-20 xl:mt-20 lg:mt-20">
             <p class="uppercase tracking-loose w-full">Portal Penerimaan Peserta Didik Baru</p>
             <h1 class="my-4 w-full text-2xl xl:text-5xl lg:text-5xl font-bold leading-tight">SMK Swasta Teruna Padangsidimpuan</h1>
-            <p class="leading-normal text-xl mb-8">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
+            <p class="leading-normal text-md mb-8">
+                Jl. Sutan soripada Mulia Gg. Mesjid No. 10 Kel. Bonan Dolok
+                <br>Kota Padangsidimpuan 22712
+            </p>
             <div calss="flex justify-center flex-row">
                 <div class="lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg block sm:inline-block md:inline-block">
                     <a href="{{ url('/daftar')}}" class="">Daftar Sekarang</a>
