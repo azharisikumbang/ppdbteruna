@@ -7,7 +7,7 @@
     @if(isset($message))
         {!! getErrorMessage($message) !!}
     @endif
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="{{ url('/change') }}">
+    <form class="bg-white shadow-md rounded px-6 pt-6 pb-8 m-2" method="POST" action="{{ url('/change') }}">
       <div class="mb-3 text-center ">
         <h3 class="font-bold text-lg text-gray-700">Ganti Password</h3>
       </div>

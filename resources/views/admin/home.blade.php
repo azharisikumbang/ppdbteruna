@@ -10,7 +10,7 @@
            @foreach($registrasi['data'] as $key => $value)
             <li class="text-gray-700 text text-{{ $logger["{$value->status_registration}"][1] }}-700">
               * [{{ date("H:i", strtotime($value->updated_at)) }}]
-              <strong><i>#<a class="hover:underline" href="{{ url('/admin/detail/' . $value->id_registration ) }}">{{ $value->id_registration }}</a></i></strong>
+              <strong><i>#<a class="hover:border-gray-900 border-dotted border-b-2 border-{{ $logger["{$value->status_registration}"][1] }}-400" href="{{ url('/admin/detail/' . $value->id_registration ) }}">{{ $value->id_registration }}</a></i></strong>
               {{ $logger["{$value->status_registration}"][0] }}
               <?= ($value->status_registration == 'tervalidasi') ? $value['user']['username_user'] : '' ?>
             </li>

@@ -170,5 +170,7 @@ return [
             'menunggu' => 'yellow',
             'gagal' => 'red'
         ]
-    ]
+    ],
+    'upload_path' => '../public_html/ppdb/files/',
+    'images_path' => '../public_html/ppdb/images/'
 ];

@@ -17,8 +17,9 @@ class loginController extends Controller
      */
     public function index(Request $request)
     {
-        $data['message'] = $request->session()->get('message');
-        $data['username'] = $request->session()->get('username');
+        $data['message'] = $request->session()->get('message')['message'];
+        $data['username'] = $request->session()->get('message')['username'];
+
         return view('login.home', $data);
     }
 
@@ -33,35 +34,33 @@ class loginController extends Controller
 
         if ($validate->fails()) {
             $message = "Form isian masih kosong";
-        }
-
-        $user = User::where('username_user', $request->username)
+        } else {
+            $user = User::where('username_user', $request->username)
             ->first();
 
-        if ($user) {
-            if (Hash::check($request->password, $user->password_user)) {
+            if ($user) {
+                if (Hash::check($request->password, $user->password_user)) {
 
-                $registration = Registration::where('code_user', $user->code_user)
-                    ->get(['id_registration']);
+                    $registration = Registration::where('code_user', $user->code_user)
+                        ->get(['id_registration']);
 
-                // set session
-                if (isset($registration[0]['id_registration'])) {
-                    $request->session()->put('registration_id', $registration[0]['id_registration']);
+                    // set session
+                    if (isset($registration[0]['id_registration'])) {
+                        $request->session()->put('registration_id', $registration[0]['id_registration']);
+                    }
+
+                    $request->session()->put('username', $request->username);
+                    $request->session()->put('code_user', $user->code_user);
+                    $request->session()->put('role', $user->role_user);
+                    if ($user->role_user == 'admin') {
+                        return redirect('/admin');
+                    }
+                    return redirect('/siswa');
                 }
-
-                $request->session()->put('username', $request->username);
-                $request->session()->put('code_user', $user->code_user);
-                $request->session()->put('role', $user->role_user);
-                if ($user->role_user == 'admin') {
-                    return redirect('/admin');
-                }
-                return redirect('/siswa');
             }
         }
 
-        $request->session()->flash('message', $message);
-        $request->session()->flash('username', $request->username);
-
+        $request->session()->flash('message', ['message' => $message, 'username' => $request->username]);
         return redirect('/masuk');
     }
 

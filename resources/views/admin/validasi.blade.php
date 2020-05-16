@@ -25,12 +25,12 @@
                         (isset($_GET['page'])) ? (($_GET['page'] - 1) * 10) + $no++ : $no++
                      }}</td>
                     <td class="px-4 py-2 border-2">
-                        <a class="hover:underline" href="{{ url('/admin/detail/' . $regis->id_registration)  }}">{{ $regis->id_registration }}</a>
+                        <a class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/detail/' . $regis->id_registration)  }}">{{ $regis->id_registration }}</a>
                     </td>
                     <td class="px-4 py-2 border-2">{{ $regis['student']['name_student'] }}</td>
                     <td class="px-4 py-2 border-2">
                         @if(isset($regis['payment']['number_payment']))
-                            <a class="hover:underline" href='{{ url("/files/pembayaran/{$regis["file"][0]["name_file"]}") }}' target="_blank">{{ $regis['payment']['number_payment'] }}</a>
+                            <a class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href='{{ url("/files/pembayaran/{$regis["file"][0]["name_file"]}") }}' target="_blank">{{ $regis['payment']['number_payment'] }}</a>
                         @else
                         -
                         @endif

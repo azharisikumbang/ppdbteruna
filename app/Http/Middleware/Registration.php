@@ -19,6 +19,11 @@ class Registration
         $current = Regis::where('code_user', $request->session()->get('code_user'))
             ->first('current_registration');
 
+        if (!$current) {
+            $request->session()->flush();
+            return redirect('/');
+        }
+
         $url = explode("/", rtrim($request->url(), "/"));
 
         if ((end($url) != 'siswa') && (end($url) !== $current->current_registration)) {

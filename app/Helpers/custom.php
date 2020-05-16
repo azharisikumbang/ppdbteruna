@@ -54,3 +54,29 @@ if (!function_exists('getErrorMessage')) {
     }
 }
 
+if (!function_exists('setStatusByFile')) {
+    function setStatusByFile($file)
+    {
+        $found = false;
+        $message = "Dokumen ";
+        $max = (count($file) > 3) ? 3 : count($file);
+
+        for ($i=0; $i < $max; $i++) {
+            if ($file[$i]->name_file === null || !isset($file[$i])) {
+                $found = true;
+                $message .= ($i == $max - 1) ? ' dan ' : "";
+                $message .= $file[$i]->type_file;
+                $message .= ($i == $max - 1) ? '' : ", ";
+            }
+        }
+
+        if($found) {
+            return ucwords($message . " belum dilampirkan");
+        } else {
+            return;
+        }
+
+    }
+}
+
+

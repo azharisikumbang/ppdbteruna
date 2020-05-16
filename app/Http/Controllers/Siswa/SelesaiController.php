@@ -70,14 +70,14 @@ class SelesaiController extends Controller
             $data['biaya'] = config('custom.data.biaya.'. $data['student']->majoring_student);
 
             $pdf = PDF::loadView('templates.integrasi', $data);
-            $pdf->setPaper('a4')->save(base_path('public/files/integrasi/I' . $filename));
+            $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'integrasi/I' . $filename));
 
             $biodata = Registration::with(['student', 'file', 'payment', 'parent', 'score'])
                 ->where('id_registration', $request->session()->get('registration_id'))
                 ->first();
 
             $pdf = PDF::loadView('templates.biodata', ['data' => $biodata]);
-            $pdf->setPaper('a4')->save(base_path('public/files/biodata/B' . $filename));
+            $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'biodata/B' . $filename));
 
         }
 

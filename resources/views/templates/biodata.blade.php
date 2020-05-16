@@ -39,7 +39,7 @@
 <body>
     <div class="page page1">
         <p>
-            <span style="font-family: Arial, Helvetica, sans-serif;"><img src="https://myfiles.space/user_files/51997_be79972e2302498d/51997_custom_files/img1588964406.png" style="width: 100%;">
+            <span style="font-family: Arial, Helvetica, sans-serif;"><img src="{{ base_path(config('custom.images_path') . 'header.png') }}" style="width: 100%;">
             </span>
         </p>
         <table style="width: 100%;">
@@ -51,13 +51,27 @@
                     </td>
                     <td rowspan="2" style="text-align: right; vertical-align: top;">
                         <span style="font-family: Arial, Helvetica, sans-serif;">
-                            <img src="https://myfiles.space/user_files/51997_be79972e2302498d/51997_custom_files/img1588964474.png" style="width: 3cm; height: 4cm">
+                            @if(isset($data['file'][0]) && $data['file'][0]->name_file != Null)
+                                <img src="{{ base_path(config('custom.upload_path') . 'photo/' . $data['file'][0]->name_file) }}" style="width: 3cm; height: 4cm">
+                            @else
+                                <img src="{{ base_path(config('custom.images_path') . 'pasphoto.png') }}" style="width: 3cm; height: 4cm">
+                            @endif
                         </span>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 45.03%; vertical-align: top;">
-                        <div style="text-align: left;"><span style="font-family: Arial, Helvetica, sans-serif;"><span style="font-size: 12px;"><strong>Nomor Pendaftaran: {{ $data->id_registration }}</strong></span><br><span style="font-size: 10px;">(wajib diisi petugas pendaftaran)</span><span style="font-size: 12px;">&nbsp; <br></span></span></div>
+                        <div style="text-align: left;">
+                            <span style="font-family: Arial, Helvetica, sans-serif;">
+                                <span style="font-size: 12px;">
+                                    <strong>Nomor Pendaftaran: {{ $data->id_registration }}</strong>
+                                </span>
+                                <br>
+                                <span style="font-size: 12px;">
+                                    <strong>Status : {{ setStatusByFile($data['file']) }}</strong>
+                                </span>
+                            </span>
+                        </div>
                     </td>
                     <td style="width: 54.3969%; vertical-align: top;">
                         <div style="text-align: right; padding-right: 20px"><strong><span style="font-family: Arial, Helvetica, sans-serif;"><span style="font-size: 12px;"><strong>Hari /Tgl. Pendaftaran : {{ date("d / m / Y", strtotime($data->created_at)) }}</strong></span><br></span></strong></div>
@@ -65,7 +79,7 @@
                 </tr>
             </tbody>
         </table>
-        <p><span style="font-family: Arial, Helvetica, sans-serif;"><img src="https://myfiles.space/user_files/51997_be79972e2302498d/51997_custom_files/img1588965010.png" style="width: 100%; margin-top: 10pt"></span></p>
+        <p><span style="font-family: Arial, Helvetica, sans-serif;"><img src="{{ base_path(config('custom.images_path') . 'jurusan.png') }}" style="width: 100%; margin-top: 10pt"></span></p>
         <table style="width: 100%; margin-top: 10pt">
             <tbody>
                 <tr>
@@ -181,7 +195,7 @@
                         <div data-empty="true" style="margin-left: 20px;">h) Alat Transfortasi Ke Sekolah</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: </div>
+                        <div data-empty="true">: {{ $data['student']->transport_student }} KM</div>
                     </td>
                 </tr>
                 <tr>
@@ -189,7 +203,7 @@
                         <div data-empty="true" style="margin-left: 20px;">i) Jarak Tempuh Rumah Ke Sekolah</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">:</div>
+                        <div data-empty="true">: {{ curr($data['student']->distance_student) }} KM</div>
                     </td>
                 </tr>
                 <tr>
@@ -197,7 +211,7 @@
                         <div data-empty="true" style="margin-left: 20px;">j) Jenis Tempat Tinggal</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: </div>
+                        <div data-empty="true">: {{ $data['student']->home_student }}</div>
                     </td>
                 </tr>
                 <tr>
@@ -205,28 +219,20 @@
                         <div data-empty="true" style="margin-left: 20px;">l) Apakah Penerima KPS/KIP/KKS/PKH</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: </div>
+                        <div data-empty="true">: {{ $data['student']->accommodation_student }}</div>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%;">
-                        <div data-empty="true" style="margin-left: 20px;">m) Tinggi Badan</div>
+                        <div data-empty="true" style="margin-left: 20px;">m) Gologan Darah</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: </div>
+                        <div data-empty="true">: {{ $data['student']->blood_student }}</div>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%;">
-                        <div data-empty="true" style="margin-left: 20px;">n) Gologan Darah</div>
-                    </td>
-                    <td style="width: 50.7657%;">
-                        <div data-empty="true">: </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 49.1592%;">
-                        <div data-empty="true" style="margin-left: 20px;">o) Asal Sekolah</div>
+                        <div data-empty="true" style="margin-left: 20px;">n) Asal Sekolah</div>
                     </td>
                     <td style="width: 50.7657%;">
                         <div data-empty="true">: {{ $data['score']->school_score }}</div>
@@ -234,23 +240,23 @@
                 </tr>
                 <tr>
                     <td style="width: 49.1592%;">
-                        <div data-empty="true" style="margin-left: 20px;">p) Jumlah Saudara Kandung</div>
+                        <div data-empty="true" style="margin-left: 20px;">o) Jumlah Saudara Kandung</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: </div>
+                        <div data-empty="true">: {{ $data['student']->siblings_student }} Bersaudara</div>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%;">
-                        <div data-empty="true" style="margin-left: 20px;">q) Anak Ke</div>
+                        <div data-empty="true" style="margin-left: 20px;">p) Anak Ke</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: </div>
+                        <div data-empty="true">: {{ $data['student']->child_order_student }}</div>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%;">
-                        <div data-empty="true" style="margin-left: 20px;">o) Yatim / Piatu / Yatim Piatu / Anak Angkat</div>
+                        <div data-empty="true" style="margin-left: 20px;">q) Yatim / Piatu / Yatim Piatu / Anak Angkat</div>
                     </td>
                     <td style="width: 50.7657%;">
                         <div data-empty="true">: {{ ucfirst($data['student']->parent_student) }}</div>
@@ -261,7 +267,7 @@
     </div>
     <div class="page-break"></div>
     <div class="page page2">
-        <p><img src="https://myfiles.space/user_files/51997_be79972e2302498d/51997_custom_files/img1588965805.png" style="width: 100%; margin-top: 10pt"></p>
+        <p><img src="{{ base_path(config('custom.images_path') . 'datadiri-title.png') }}" style="width: 100%; margin-top: 10pt"></p>
         <table style="width: 100%;">
             <tbody>
                 <tr>
@@ -378,25 +384,32 @@
                     <td style="width: 49.1592%">
                         <div data-empty="true" style="margin-left: 40px;">a) Nama Lengkap Wali</div>
                     </td>
-                    <td style="width: 50.7657%;">: {{ $data['parent']->nama_wali }}</td>
+                    <td style="width: 50.7657%;">: {{ ($data['parent']->nama_wali != '') ? $data['parent']->nama_wali : '-' }}</td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%">
                         <div data-empty="true" style="margin-left: 40px;">b) Tempat / Tanggal Lahir Wali</div>
                     </td>
-                    <td style="width: 50.7657%;">: {{ ($data['parent']->nama_wali != '') ? $data['parent']->tempat_lahir_wali . ', ' . tanggal($data['parent']->tanggal_lahir_wali) : '' }}</td>
+                    <td style="width: 50.7657%;">: {{ ($data['parent']->nama_wali != '') ? $data['parent']->tempat_lahir_wali . ', ' . tanggal($data['parent']->tanggal_lahir_wali) : '-' }}</td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%">
                         <div data-empty="true" style="margin-left: 40px;">c) Alamat Wali</div>
                     </td>
-                    <td style="width: 50.7657%;">: {{ $data['parent']->alamat_wali }}</td>
+                    <td style="width: 50.7657%;">: {{ ($data['parent']->alamat_wali != '') ? $data['parent']->alamat_wali : '-' }}</td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%">
                         <div data-empty="true" style="margin-left: 40px;">d) Pekerjaan Wali</div>
                     </td>
-                    <td style="width: 50.7657%;">: {{ $data['parent']->pekerjaan_wali }}</td>
+                    <td style="width: 50.7657%;">: {{ ($data['parent']->pekerjaan_wali != '') ? $data['parent']->pekerjaan_wali : '-' }}</td>
+                </tr>
+
+                <tr>
+                    <td style="width: 49.1592%">
+                        <div data-empty="true" style="margin-left: 40px;">f) Penghasilan Wali Perbulan</div>
+                    </td>
+                    <td style="width: 50.7657%;">: {{ ($data['parent']->penghasilan_wali != '') ? curr($data['parent']->penghasilan_wali, 0, 'Rp. ') : '-' }}</td>
                 </tr>
                 <tr>
                     <td style="width: 49.1592%"><br></td>
@@ -446,7 +459,7 @@
                 <tr>
                     <td style="width: 49.1256%;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Diketahui / Disetujui :<br><strong>Orang Tua / Wali Calon Siswa / i</strong><br><br><br><br><br>( _____________________________)<br>&nbsp; &nbsp; &nbsp; &nbsp;Nama dan Tanda Tangan Jelas</td>
                     <td style="width: 50.7154%; vertical-align: top;">
-                        <div data-empty="true" style="text-align: right;">Padangsidimpuan, ____, ____________, 2020<br><strong>Calon Peserta Didik &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong><br><br></div>
+                        <div data-empty="true" style="text-align: right;">Padangsidimpuan, ____, ____________, {{ date("Y", strtotime($data->created_at)) }}<br><strong>Calon Peserta Didik &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong><br><br></div>
                         <div data-empty="true" style="text-align: right;"><br></div>
                         <div data-empty="true" style="text-align: right;"><br><br>( _____________________________)<br>Nama dan Tanda Tangan Jelas&nbsp; &nbsp; &nbsp; </div>
                     </td>

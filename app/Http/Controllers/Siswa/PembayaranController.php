@@ -42,11 +42,10 @@ class PembayaranController extends Controller
             'nama_rekening' => 'required',
             'nomor_rekening' => 'required',
             'nominal' => 'required',
-            'file' => 'required'
+            'file' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
         ], ['required' => 'Kolom :attribute masih kosong!']);
 
         if (!$validate->fails()) {
-
 
             if ($request->file('file')->isValid()) {
 
@@ -59,7 +58,7 @@ class PembayaranController extends Controller
 
                 $filename = "P". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('file')->getClientOriginalExtension();
 
-                $request->file('file')->move(base_path('public/files/pembayaran/'), $filename);
+                $request->file('file')->move(base_path(config('custom.upload_path') . 'pembayaran/'), $filename);
 
                 File::Create([
                     'name_file' => $filename,

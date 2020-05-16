@@ -57,9 +57,7 @@
 <body>
     <div class="page page1">
         <div id="header">
-            <h4>Yayasan Perguruan Teruna Indonesia</h4>
-            <h2>SMK SWASTA TERUNA PADANGSIDIMPUAN</h2>
-            <p>Jl. Sutan Soripada Mulia Gg. Masjid Padangsidimpuan</p>
+            <img src="{{ base_path(config('custom.images_path') . 'header.png') }}" style="width: 100%;">
         </div>
 
         <div id="body">

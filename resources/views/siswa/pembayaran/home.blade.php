@@ -3,7 +3,7 @@
 @section('title', 'PPDB - SMKS Teruna Padangsidimpuan')
 
 @section('content')
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 my-10">
+    <div class="bg-white shadow-md rounded px-6 pt-6 pb-8 m-2">
         <div name="nav">
             <ul class="flex justify-between">
               <li class="mr-3">
@@ -16,18 +16,42 @@
                     <li class="inline-block w-3 bg-gray-400 h-3 rounded-full">&nbsp;</li>
                 </ul>
               </li>
-              <li class="mr-3">
-                <span class="inline-block py-2 px-4 text-gray-700 font-bold">
-                  No Pendaftaran : #{{ $registration_id }}
-                </span>
-                <a class="inline-block py-2 px-4 text-gray-400" href="{{ url('/siswa') }}">{{ $username }}</a>
-                <a class="inline-block py-2 px-4 text-gray-400" href="{{ url('/keluar') }}">Keluar</a>
+              <li class="text-right">
+                <div class="flex relative inline-block">
+                    <div class="relative text-sm">
+                        <button id="userButton" class="flex items-center focus:outline-none ">
+                            <svg class="svg-icon w-8 h-10" viewBox="0 0 20 20">
+                                <path fill="lightgray" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314
+                                    c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743
+                                    s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314
+                                    c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                            </svg>
+                        </button>
+                        <div id="userMenu" class="bg-white nunito rounded shadow-md mt-2 absolute mt-12 top-0 right-0 min-w-full overflow-auto z-30 invisible w-64">
+                            <ul class="list-reset">
+                                <li>
+                                    <a href="{{ url('/siswa') }}" class="px-4 py-2 block text-gray-900 hover:bg-green-300 hover:text-white no-underline hover:no-underline"> Hi, {{ $username }}</a>
+                                </li>
+                                <li class="px-4 py-2 block text-gray-900 hover:bg-green-300 hover:text-white no-underline hover:no-underline">
+                                    No Pendaftaran : #{{ $registration_id }}
+                                </li>
+                                <li>
+                                    <a href="{{ url('/change') }}" class="px-4 py-2 block text-gray-900 hover:bg-green-300 hover:text-white no-underline hover:no-underline">Ganti Password</a>
+                                </li>
+                                <li>
+                                    <hr class="border-t mx-2 border-gray-300">
+                                </li>
+                                <li><a href="{{ url('/keluar') }}" class="px-4 py-2 block text-gray-900 hover:bg-green-300 hover:text-white no-underline hover:no-underline">Keluar</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
               </li>
             </ul>
         </div>
 
         <!-- Form -->
-        <div class="my-16 text-gray-700 px-40 mx-auto">
+        <div class="my-6 text-gray-700">
             <div class="text-2xl mb-3">Pembayaran</div>
             @if($message)
                 {!! getErrorMessage($message) !!}
@@ -58,17 +82,14 @@
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
-                        Upload Bukti Pembayaran
+                        Upload Foto Bukti Pembayaran (Max 2mb)
                       </label>
                       <input class="appearance-none block w-full text-gray-700  py-3 leading-tight" name="file" type="file">
                     </div>
                 </div>
-                <div class="flex mt-8">
-                    <div class="text-white shadow text-center bg-green-400 rounded-full px-4 py-2 m-2 hover:bg-green-500">
+                 <div class="flex justify-end -mx-3 mt-6 xl:mb-6">
+                    <div class="w-full md:w-32 xl:w-32 xg:w-32 text-white shadow text-center bg-green-400 rounded px-4 py-2 m-2 hover:bg-green-500">
                         <button type="submit">Lanjutkan</button>
-                    </div>
-                    <div class="text-gray-700 shadow text-center bg-white-400 rounded-full px-4 py-2 m-2 hover:bg-gray-100">
-                        <a href="#">Kembali</a>
                     </div>
                 </div>
             </form>

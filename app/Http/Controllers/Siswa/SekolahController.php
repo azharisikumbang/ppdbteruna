@@ -46,49 +46,51 @@ class SekolahController extends Controller
             'nilai_ipa' => 'required|numeric|between:0,100.00',
             'nilai_total' => 'required|numeric|between:0,400.00',
             'nilai_ratarata' => 'required|numeric|between:0,100.00',
-            'file_ijazah' => 'required',
-            'file_skhun' => 'required'
         ], ["required" => "Kolom :attribute masih kosong!"]);
 
         if (!$validate->fails()) {
 
-            if($request->file('file_ijazah')->isValid()){
+            $filename = NULL;
 
-                $filename = "IJ". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('file_ijazah')->getClientOriginalExtension();
+            if (!isset($request->no_file_ijazah)) {
+                if($request->file('file_ijazah')->isValid()){
 
-                $request->file('file_ijazah')->move(base_path('public/files/ijazah/'), $filename);
+                    $filename = "IJ". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('file_ijazah')->getClientOriginalExtension();
 
-                File::Create([
-                    'name_file' => $filename,
-                    'type_file' => 'ijazah',
-                    'registration_id' => $request->session()->get('registration_id'),
-                    'code_user' => $request->session()->get('code_user')
-                ]);
+                    $request->file('file_ijazah')->move(base_path(config('custom.upload_path') . 'ijazah/'), $filename);
 
-             }
+                 }
+            }
 
-            if($request->file('file_skhun')->isValid()){
+            File::Create([
+                'name_file' => $filename,
+                'type_file' => 'ijazah',
+                'registration_id' => $request->session()->get('registration_id'),
+                'code_user' => $request->session()->get('code_user')
+            ]);
 
-                $filename = "SK". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('file_skhun')->getClientOriginalExtension();
+            if (!isset($request->no_file_skhun)) {
+                if($request->file('file_skhun')->isValid()) {
 
-                $request->file('file_skhun')->move(base_path('public/files/skhun/'), $filename);
+                    $filename = "SK". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('file_skhun')->getClientOriginalExtension();
 
-                File::Create([
-                    'name_file' => $filename,
-                    'type_file' => 'skhun',
-                    'registration_id' => $request->session()->get('registration_id'),
-                    'code_user' => $request->session()->get('code_user')
-                ]);
+                    $request->file('file_skhun')->move(base_path(config('custom.upload_path') . 'skhun/'), $filename);
 
-             }
+                 }
+            }
 
-            Registration::where('id_registration', $request->session()->get('registration_id'))
-                ->update(['current_registration' => 'orangtua']);
+             File::Create([
+                'name_file' => $filename,
+                'type_file' => 'skhun',
+                'registration_id' => $request->session()->get('registration_id'),
+                'code_user' => $request->session()->get('code_user')
+            ]);
+
 
             Student::where('registration_id', $request->session()->get('registration_id'))
                 ->update(['majoring_student' => $request->jurusan]);
 
-            Score::where('registration_id', $request->session()->get('registration_id'))
+            $update = Score::where('registration_id', $request->session()->get('registration_id'))
                 ->update([
                     'school_score' => $request->sekolah_asal,
                     'nisn_score' => substr($request->nisn, 0, 10),
@@ -105,6 +107,11 @@ class SekolahController extends Controller
                     'total_score' => $request->nilai_total
 
                 ]);
+
+            if ($update) {
+                Registration::where('id_registration', $request->session()->get('registration_id'))
+                ->update(['current_registration' => 'orangtua']);
+            }
 
             // Score::where
             return redirect('/siswa/pembayaran');
