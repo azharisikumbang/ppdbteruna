@@ -61,15 +61,17 @@ class SelesaiController extends Controller
                 'code_user' => $request->session()->get('code_user')
             ]);
 
-            $data['student'] = Student::where('registration_id', $data['registration_id'])->first();
+            $integrasi = Registration::with([
+                'student' => function($query) {
+                    $query->select('registration_id', 'name_student', 'birthplace_student', 'birthdate_student', 'phone_student', 'address_student', 'desa_student', 'kecamatan_student', 'kota_student', 'provinsi_student', 'agama_student', 'pos_student');
+                },
+                'parent' => function($query) {
+                    $query->select('registration_id', 'nama_ayah', 'nama_ibu', 'nama_wali', 'phone_ayah', 'phone_ibu', 'phone_wali');
+                }
+            ])->where('id_registration', $request->session()->get('registration_id'))
+            ->first(['id_registration', 'created_at']);
 
-            $data['payment'] = Payment::where('registration_id', $data['registration_id'])->first();
-            $data['tanggal'] = tanggal($data['student']->created_at);
-
-            $data['jurusan'] = config('custom.data.jurusan.'. $data['student']->majoring_student);
-            $data['biaya'] = config('custom.data.biaya.'. $data['student']->majoring_student);
-
-            $pdf = PDF::loadView('templates.integrasi', $data);
+            $pdf = PDF::loadView('templates.integrasi', ['data' => $integrasi]);
             $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'integrasi/I' . $filename));
 
             $biodata = Registration::with(['student', 'file', 'payment', 'parent', 'score'])
