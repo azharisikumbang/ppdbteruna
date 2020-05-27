@@ -6,8 +6,9 @@
     <h3 class="text-xl mb-3 font-bold pb-3">
         Data Pendaftar #{{ $registrasi->id_registration }}
         @if(isset($registrasi['file'][2]) && $registrasi['file'][2]['type_file'] == 'skhun')
-            <small>(<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/biodata/' . $registrasi['file'][5]['name_file']) }}">download</a>)</small>
-          @endif
+            <small>(<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/biodata/' . $registrasi['file'][5]['name_file']) }}">unduh</a>)</small>
+            <small>(<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/detail/' . $registrasi->id_registration . '/regenerate') }}">re-generate</a>)</small>
+        @endif
 
     </h3>
     <div class=" bg-white p-6 shadow rounded-md">
@@ -16,7 +17,10 @@
             <table class="w-full">
               <!-- Data Siswa -->
               <tr>
-                <td colspan="2" class="font-bold pt-4">Data Diri Pendaftar</td>
+                <td colspan="2" class="font-bold pt-4">
+                    Data Diri Pendaftar
+                    <small>( <a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/biodata/' . $registrasi->id_registration) }}">perbaharui</a> )</small>
+                </td>
               </tr>
               <tr>
                 <td class="border-b py-3 px-3 ">Nama Siswa</td>
@@ -26,10 +30,11 @@
                 <td class="border-b py-3 px-3 ">Photo</td>
                 <td class="border-b py-3 px-3">:
                     @if(isset($registrasi['file'][0]) && $registrasi['file'][0]['name_file'] != NULL)
-                        <a href="{{ url('/files/photo/' . $registrasi['file'][0]->name_file) }}" class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank">(click to view)</a>
+                        <a href="{{ url('/files/photo/' . $registrasi['file'][0]->name_file) }}" class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank">(lihat)</a>
                     @else
                         -
                     @endif
+                    ( <a class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/file/photo/' . $registrasi->id_registration) }}">perbaharui</a> )
                 </td>
               </tr>
               <tr>
@@ -58,7 +63,10 @@
               </tr>
               <!-- Data orang tua -->
               <tr>
-                <td colspan="2" class="font-bold pt-6">Data Ayah</td>
+                <td colspan="2" class="font-bold pt-6">
+                    Data Ayah
+                    <small>( <a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/ayah/' . $registrasi->id_registration) }}">perbaharui</a> )</small>
+                </td>
               </tr>
               <tr>
                 <td class="border-b px-3 py-3">Nama</td>
@@ -89,7 +97,10 @@
                 <td class="border-b px-3 py-3">: {{ ucwords($registrasi['parent']['agama_ayah']) }}</td>
               </tr>
               <tr>
-                <td colspan="2" class="font-bold pt-6">Data Ibu</td>
+                <td colspan="2" class="font-bold pt-6">
+                    Data Ibu
+                    <small>( <a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/ibu/' . $registrasi->id_registration) }}">perbaharui</a> )</small>
+                </td>
               </tr>
               <tr>
                 <td class="border-b px-3 py-3">Nama</td>
@@ -120,7 +131,10 @@
                 <td class="border-b px-3 py-3">: {{ ucwords($registrasi['parent']['agama_ibu']) }}</td>
               </tr>
               <tr>
-                <td colspan="2" class="font-bold pt-6">Data Wali</td>
+                <td colspan="2" class="font-bold pt-6">
+                    Data Wali
+                    <small>( <a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/wali/' . $registrasi->id_registration) }}">perbaharui</a> )</small>
+                </td>
               </tr>
               <tr>
                 <td class="border-b px-3 py-3">Nama</td>
@@ -173,7 +187,7 @@
               </tr>
               <tr>
                 <td class="border-b px-3 py-3 bg-gray-200">Status Pendaftaran</td>
-                <td class="border-b px-3 py-3 bg-gray-200">: {{ $registrasi->status_registration }} / {{ setStatusByFile($registrasi['file']) }}</td>
+                <td class="border-b px-3 py-3 bg-gray-200">: {{ (($registrasi['file'][1]->name_file == null) || ($registrasi['file'][2]->name_file == null)) ? 'Dokumen belum lengkap' : 'Dokumen telah dilengkapi'}}</td>
               </tr>
               <tr>
                 <td class="border-b py-3 px-3">Aktivitas Pendaftaran</td>
@@ -182,7 +196,7 @@
               <tr>
                 <td class="border-b px-3 py-3 bg-gray-200">Bukti Pembayaran</td>
                 <td class="border-b px-3 py-3 bg-gray-200">: @if(isset($registrasi['payment']['name_payment']))
-                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/pembayaran/' . $registrasi['file'][3]['name_file']) }}">download</a>)
+                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/pembayaran/' . $registrasi['file'][3]['name_file']) }}">unduh</a>)
                       @else
                         -
                       @endif
@@ -191,7 +205,7 @@
               <tr>
                 <td class="border-b py-3 px-3">Bukti Integrasi</td>
                 <td class="border-b py-3 px-3">: @if(isset($registrasi['payment']['name_payment']))
-                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/integrasi/' . $registrasi['file'][4]['name_file']) }}">download</a>)
+                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/integrasi/' . $registrasi['file'][4]['name_file']) }}">unduh</a>)
                       @else
                         -
                       @endif
@@ -211,7 +225,10 @@
               </tr>
               <!-- Penilaian -->
               <tr>
-                <td colspan="2" class="font-bold pt-6">Data Sekolah</td>
+                <td colspan="2" class="font-bold pt-6">
+                    Data Sekolah
+                    <small>( <a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/sekolah/' . $registrasi->id_registration) }}">perbaharui</a> )</small>
+                </td>
               </tr>
               <tr>
                 <td class="border-b py-3 px-3">Sekolah Asal</td>
@@ -268,19 +285,21 @@
               <tr>
                 <td class="border-b px-3 py-3 bg-gray-200">Foto Ijazah</td>
                 <td class="border-b px-3 py-3 bg-gray-200">: @if(isset($registrasi['file'][1]) && $registrasi['file'][1]['name_file'] != NULL)
-                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/ijazah/' . $registrasi['file'][1]['name_file']) }}">download</a>)
+                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/ijazah/' . $registrasi['file'][1]['name_file']) }}">unduh</a>)
                       @else
                         -
                       @endif
+                    ( <a class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/file/ijazah/' . $registrasi->id_registration) }}">perbaharui</a> )
                 </td>
               </tr>
               <tr>
                 <td class="border-b px-3 py-3">Foto SKHUN</td>
                 <td class="border-b px-3 py-3">: @if(isset($registrasi['file'][2]) && $registrasi['file'][2]['name_file'] != NULL)
-                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/skhun/' . $registrasi['file'][2]['name_file']) }}">download</a>)
+                        Ya (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/skhun/' . $registrasi['file'][2]['name_file']) }}">unduh</a>)
                       @else
                         -
                       @endif
+                    ( <a class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/perbaharui/file/skhun/' . $registrasi->id_registration) }}">perbaharui</a> )
                 </td>
               </tr>
             </table>

@@ -68,8 +68,16 @@
                                 </span>
                                 <br>
                                 <span style="font-size: 12px;">
-                                    <strong>Status : {{ setStatusByFile($data['file']) }}</strong>
+                                    <strong>Jurusan : {{ config("custom.data.jurusan." . $data['student']->majoring_student) }} ({{ $data['student']->majoring_student }})</strong>
                                 </span>
+                                @if($data['file'][1]->name_file === null || $data['file'][2]->name_file === null)
+                                    <br>
+                                    <span style="font-size: 12px;">
+                                        <strong>Status :
+                                                Dokumen belum lengkap
+                                        </strong>
+                                    </span>
+                                @endif
                             </span>
                         </div>
                     </td>
@@ -195,7 +203,7 @@
                         <div data-empty="true" style="margin-left: 20px;">h) Alat Transfortasi Ke Sekolah</div>
                     </td>
                     <td style="width: 50.7657%;">
-                        <div data-empty="true">: {{ $data['student']->transport_student }} KM</div>
+                        <div data-empty="true">: {{ $data['student']->transport_student }}</div>
                     </td>
                 </tr>
                 <tr>

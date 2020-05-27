@@ -116,7 +116,10 @@
                 </tr>
             </tbody>
         </table>
-        <p dir="ltr" style="line-height:1.2;text-align: justify;margin-top:10pt;margin-bottom:0pt;"><span style="font-size:10pt">Setelah diterima di kelas <i><u> X </u> (<u>  sepuluh  </u>)</i> berjanji dengan sungguh-sungguh untuk:.</span></p>
+        <p dir="ltr" style="line-height:1.2;text-align: justify;margin-top:10pt;margin-bottom:0pt;">
+            <span style="font-size:10pt">Setelah diterima di kelas <i><u> X </u> (<u>  sepuluh  </u>) - {{ config("custom.data.jurusan." . $data['student']->majoring_student) }} ( {{ $data['student']->majoring_student }} )</i>  berjanji dengan sungguh-sungguh untuk:
+            </span>
+        </p>
         <div style="line-height:1.2;text-align: justify;margin-top:10pt;margin-bottom:0pt;font-size:10pt !important;">
             <ol style="margin-left: 40px;">
                 <li>Mengikuti segala peraturan yang sudah ditetap di sekolah SMK Swasta Teruna Padangsidimpuan</li>

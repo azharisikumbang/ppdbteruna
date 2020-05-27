@@ -74,6 +74,7 @@ class loginController extends Controller
     public function change(Request $request)
     {
         $data['message'] = $request->session()->get('message');
+        $data['csrf_token'] = $request->session()->get('_token');
         return view('login.change', $data);
     }
 

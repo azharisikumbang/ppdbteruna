@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Registration;
 use App\Models\Student;
 use App\Models\File;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class DataController extends Controller
 {
@@ -76,7 +77,15 @@ class DataController extends Controller
 
     public function detail(Request $request)
     {
-        $registrasi = Registration::with(['student', 'file', 'payment', 'parent', 'score'])
+        $registrasi = Registration::with([
+                'student',
+                'file' => function($query) {
+                    $query->orderBy('created_at', 'asc');
+                },
+                'payment',
+                'parent',
+                'score'
+            ])
             ->where('id_registration', $request->regid)
             ->first();
 
@@ -92,6 +101,37 @@ class DataController extends Controller
 
     }
 
+    public function regenerate(Request $request)
+    {
+        $filename = "B" . $request->regid . '_' . time() . '.pdf';
+
+        File::where([
+            'registration_id' => $request->regid,
+            'type_file' => 'biodata'
+        ])
+        ->update([
+            'name_file' => $filename,
+        ]);
+
+        $biodata = Registration::with([
+                'student',
+                'file' => function($query) {
+                    $query->orderBy('created_at', 'asc');
+                },
+                'payment',
+                'parent',
+                'score'
+            ])
+            ->where('id_registration', $request->regid)
+            ->first();
+
+        $pdf = PDF::loadView('templates.biodata', ['data' => $biodata]);
+        $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'biodata/' . $filename));
+
+        return redirect('/admin/detail/' . $request->regid);
+
+    }
+
     private function getData($request, $where)
     {
         return Registration::with([
@@ -100,6 +140,7 @@ class DataController extends Controller
             },
             'file' => function($query) {
                 $query->select('registration_id', 'name_file')->where('type_file', 'pembayaran');
+                $query->orderBy('created_at', 'asc');
             },
             'payment' => function($query) {
                 $query->select('registration_id', 'number_payment', 'bank_payment');
@@ -117,6 +158,7 @@ class DataController extends Controller
             },
             'file' => function($query) {
                 $query->select('registration_id', 'name_file')->where('type_file', 'pembayaran');
+                $query->orderby('name_file');
             },
             'payment' => function($query) {
                 $query->select('registration_id', 'number_payment', 'bank_payment');

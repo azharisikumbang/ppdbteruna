@@ -61,7 +61,12 @@ class HomeController extends Controller
 
         if ($request->q) {
             $searchTerm = $request->q;
-            $registrasi = Registration::query()->with(['file', 'payment'])
+            $registrasi = Registration::query()->with([
+                        'file' => function($query) {
+                            $query->orderBy('created_at', 'asc');
+                        },
+                        'payment'
+                    ])
                     ->select(
                         'registrations.id_registration',
                         'registrations.status_registration',

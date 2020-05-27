@@ -56,14 +56,14 @@
             @if($message)
                 {!! getErrorMessage($message) !!}
             @endif
-            <form class="w-full" method="POST" action="{{ url('/siswa/sekolah') }}" enctype="multipart/form-data">
+            <form class="w-full" method="POST" action="{{ url('/siswa/sekolah') }}" enctype="multipart/form-data" id="form-sekolah">
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Nama Sekolah Tujuan
                       </label>
                       <input type="hidden" name="_token" value="{{ $csrf_token }}">
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="lastname" type="text" value="SMK Swasta Teruna Padangsidimpuan" readonly="readonly">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="destionation_school" type="text" value="SMK Swasta Teruna Padangsidimpuan" readonly="readonly">
                     </div>
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
@@ -109,6 +109,17 @@
                       <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="no_peserta_un" type="text">
                     </div>
                 </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                      <label class="block uppercase tracking-wide text-gray-700 font-bold mb-2" for="firstname">
+                       Keterangan Hasil Ujian
+                      </label>
+                      <input type="checkbox" name="disable_input_sekolah" class="mt-4" onchange="disableInputFile(this, 'nomor_ijazah, tanggal_ijazah, nomor_skhun, tanggal_skhun, nilai_mtk, nilai_bindo, nilai_binggris, nilai_ipa, nilai_total, nilai_ratarata, file_ijazah, file_skhun')">
+                      Tandai Dokumen Belum Lengkap
+                    </div>
+                </div>
+
 
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
@@ -189,16 +200,12 @@
                       </label>
 
                       <input class="appearance-none block w-full text-gray-700  py-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="file_ijazah" type="file">
-                      <input type="checkbox" name="no_file_ijazah" class="mt-4" onchange="disableInputFile(this, '[name=file_ijazah]')">
-                        <span class="text-sm">Belum Menyertakan Dokumen Ijazah</span>
                     </div>
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_ratarata">
                          Bukti SKHUN (photo atau scan dokumen)
                       </label>
                       <input class="appearance-none block w-full text-gray-700 py-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="file_skhun" type="file">
-                      <input type="checkbox" name="no_file_skhun" class="mt-4" onchange="disableInputFile(this, '[name=file_skhun]')">
-                        <span class="text-sm">Belum Menyertakan Dokumen SKHUN</span>
                     </div>
                 </div>
 
@@ -212,16 +219,40 @@
     </div>
 
     <script type="text/javascript">
-        function disableInputFile(e, sibling)
+        let createdElements;
+        function disableInputFile(e, element)
         {
-            sibling = document.querySelector(sibling);
-            if (sibling.getAttribute('disabled') == "disabled") {
-                sibling.removeAttribute('disabled')
+          if (createdElements == null) {
+            elements = element.split(",");
+            createdElements = elements.map(el => {
+              el = el.trim();
+              el = document.querySelector(`#form-sekolah [name=${el}]`);
+              return el;
+            });
+          }
+
+          createdElements.map(el => {
+            if (el.getAttribute('disabled') == "disabled") {
+                el.removeAttribute('disabled');
                 return;
             }
 
-            sibling.setAttribute('disabled', 'disabled')
+            el.setAttribute('disabled', 'disabled');
             return;
+
+          });
+
+
+          console.log(createdElements)
+
+            // sibling = document.querySelector(sibling);
+            // if (sibling.getAttribute('disabled') == "disabled") {
+            //     sibling.removeAttribute('disabled')
+            //     return;
+            // }
+
+            // sibling.setAttribute('disabled', 'disabled')
+            // return;
         }
     </script>
 

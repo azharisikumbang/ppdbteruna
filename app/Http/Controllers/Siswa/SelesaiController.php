@@ -63,7 +63,7 @@ class SelesaiController extends Controller
 
             $integrasi = Registration::with([
                 'student' => function($query) {
-                    $query->select('registration_id', 'name_student', 'birthplace_student', 'birthdate_student', 'phone_student', 'address_student', 'desa_student', 'kecamatan_student', 'kota_student', 'provinsi_student', 'agama_student', 'pos_student');
+                    $query->select('registration_id', 'name_student', 'birthplace_student', 'birthdate_student', 'phone_student', 'address_student', 'desa_student', 'kecamatan_student', 'kota_student', 'provinsi_student', 'agama_student', 'pos_student', 'majoring_student');
                 },
                 'parent' => function($query) {
                     $query->select('registration_id', 'nama_ayah', 'nama_ibu', 'nama_wali', 'phone_ayah', 'phone_ibu', 'phone_wali');
@@ -74,7 +74,15 @@ class SelesaiController extends Controller
             $pdf = PDF::loadView('templates.integrasi', ['data' => $integrasi]);
             $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'integrasi/I' . $filename));
 
-            $biodata = Registration::with(['student', 'file', 'payment', 'parent', 'score'])
+            $biodata = Registration::with([
+                    'student',
+                    'file' => function($query) {
+                        $query->orderBy('created_at', 'asc');
+                    },
+                    'payment',
+                    'parent',
+                    'score'
+                ])
                 ->where('id_registration', $request->session()->get('registration_id'))
                 ->first();
 

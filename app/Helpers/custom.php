@@ -35,6 +35,10 @@ if (!function_exists('rt_rw')) {
 if (!function_exists('tanggal')) {
     function tanggal($date, $time = false)
     {
+        if ($date == null) {
+            return "-";
+        }
+
         $format = "d @ Y";
         $bulan = bulanIndo(date("m", strtotime($date)));
         if ($time) {
@@ -54,29 +58,30 @@ if (!function_exists('getErrorMessage')) {
     }
 }
 
-if (!function_exists('setStatusByFile')) {
-    function setStatusByFile($file)
-    {
-        $found = false;
-        $message = "Dokumen ";
-        $max = (count($file) > 3) ? 3 : count($file);
+// if (!function_exists('setStatusByFile')) {
+//     function setStatusByFile($file)
+//     {
+//         $found = false;
+//         $message = "Dokumen ";
+//         $max = (count($file) > 3) ? 3 : count($file);
 
-        for ($i=0; $i < $max; $i++) {
-            if ($file[$i]->name_file === null || !isset($file[$i])) {
-                $found = true;
-                $message .= ($i + 1 == $max) ? ' dan ' : "";
-                $message .= $file[$i]->type_file;
-                $message .= ($i + 3 <= $max) ? ', ' : '';
-            }
-        }
+//         for ($i=0; $i < $max; $i++) {
+//             if ($file[$i]->name_file === null || !isset($file[$i])) {
+//                 $found = true;
+//                 $message .= ($i + 1 == $max) ? ' dan ' : "";
+//                 $message .= $file[$i]->type_file;
+//                 $message .= ($i + 3 <= $max) ? ', ' : '';
+//             }
+//         }
 
-        if($found) {
-            return ucwords($message . " belum dilampirkan");
-        } else {
-            return;
-        }
+//         if($found) {
+//             return ucwords($message . " belum dilampirkan");
+//         } else {
+//             return;
+//         }
 
-    }
-}
+//     }
+// }
+
 
 
