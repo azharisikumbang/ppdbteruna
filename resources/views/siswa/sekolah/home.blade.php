@@ -73,7 +73,7 @@
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="jurusan" autofocus="autofocus">
                             <option value="Ak">-- PILIH JURUSAN --</option>
                           @foreach($jurusan as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
+                            <option value="{{ $key }}" {{ (strtolower($old['majoring_student']) == strtolower($key)) ? 'selected=selected' : '' }}>{{ $value }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -88,7 +88,7 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                         Nama Sekolah Asal
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="sekolah_asal" type="text">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="sekolah_asal" type="text" value="{{ $old['school_score'] }}">
                     </div>
                 </div>
 
@@ -97,7 +97,18 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                        No. Induk Siswa Nasional (NISN)
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nisn" type="text" maxlength="10">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nisn" type="text" maxlength="10" value="{{ $old['nisn_score'] }}">
+                    </div>
+                </div>
+
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                      <label class="block uppercase tracking-wide text-gray-700 font-bold mb-2" for="firstname">
+                       Keterangan Hasil Ujian
+                      </label>
+                      <input type="checkbox" name="disable_input_sekolah" class="mt-4" onchange="disableInputFile(this, 'nomor_ijazah, no_peserta_un, tanggal_ijazah, nomor_skhun, tanggal_skhun, nilai_mtk, nilai_bindo, nilai_binggris, nilai_ipa, nilai_total, nilai_ratarata, file_ijazah, file_skhun')">
+                      Tandai Dokumen Belum Lengkap
                     </div>
                 </div>
 
@@ -106,33 +117,22 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                        No. Peserta UN SMP / MTS
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="no_peserta_un" type="text">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="no_peserta_un" type="text" value="{{ $old['no_peserta_un'] }}">
                     </div>
                 </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <label class="block uppercase tracking-wide text-gray-700 font-bold mb-2" for="firstname">
-                       Keterangan Hasil Ujian
-                      </label>
-                      <input type="checkbox" name="disable_input_sekolah" class="mt-4" onchange="disableInputFile(this, 'nomor_ijazah, tanggal_ijazah, nomor_skhun, tanggal_skhun, nilai_mtk, nilai_bindo, nilai_binggris, nilai_ipa, nilai_total, nilai_ratarata, file_ijazah, file_skhun')">
-                      Tandai Dokumen Belum Lengkap
-                    </div>
-                </div>
-
 
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_total">
                         No. Ijazah SMP / MTS
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nomor_ijazah" type="text">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nomor_ijazah" type="text" value="{{ $old['nomor_ijazah'] }}">
                     </div>
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_ratarata">
                         Tanggal Ijazah SMP / MTS
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tanggal_ijazah" type="date">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tanggal_ijazah" type="date" value="{{ $old['tanggal_ijazah'] }}">
                     </div>
                 </div>
                  <div class="flex flex-wrap -mx-3 mb-6">
@@ -140,13 +140,13 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_total">
                         No. SKHUN SMP / MTS
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nomor_skhun" type="text">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nomor_skhun" type="text" value="{{ $old['nomor_skhun'] }}">
                     </div>
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_ratarata">
                         Tanggal SKHUN SMP / MTS
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tanggal_skhun" type="date">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tanggal_skhun" type="date" value="{{ $old['tanggal_skhun'] }}">
                     </div>
                 </div>
 
@@ -155,25 +155,25 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_mtk">
                         Nilai Matemtika
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_mtk" type="number" value="0.00" step="0.01">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_mtk" type="number" step="0.01" value="{{ $old['mtk_score'] ?? '0.00' }}">
                     </div>
                     <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_bindo">
                         Nilai B. Indonesia
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_bindo" type="number" value="0.00" step="0.01">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_bindo" type="number" value="{{ $old['indo_score'] ?? '0.00' }}" step="0.01">
                     </div>
                     <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_binggris">
                         Nilai B. Inggris
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_binggris" type="number" value="0.00" step="0.01">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_binggris" type="number" value="{{ $old['inggris_score'] ?? '0.00' }}" step="0.01">
                     </div>
                     <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_ipa">
                         Nilai IPA
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_ipa" type="number" value="0.00" step="0.01">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_ipa" type="number"value="{{ $old['ipa_score'] ?? '0.00' }}" step="0.01">
                     </div>
                 </div>
 
@@ -182,13 +182,13 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_total">
                         Nilai Total UN
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_total" type="number" value="0.00" step="0.01">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_total" type="number" value="{{ $old['total_score'] ?? '0.00' }}" step="0.01">
                     </div>
                     <div class="w-full xl:w-1/2 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nilai_ratarata">
                         Nilai Rata Rata UN
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_ratarata" type="number" value="0.00" step="0.01">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nilai_ratarata" type="number" value="{{ $old['rata_rata_score'] ?? '0.00' }}" step="0.01">
                     </div>
                 </div>
 
@@ -210,8 +210,11 @@
                 </div>
 
                 <div class="flex justify-end -mx-3 mt-6 xl:mb-6">
-                    <div class="w-full md:w-32 xl:w-32 xg:w-32 text-white shadow text-center bg-green-400 rounded px-4 py-2 m-2 hover:bg-green-500">
+                    <div class="w-full sm:w-full md:w-32 xl:w-32 xg:w-32 text-white shadow text-center bg-green-400 rounded px-4 py-2 m-2 hover:bg-green-500">
                         <button type="submit">Lanjutkan</button>
+                    </div>
+                    <div class="w-full sm:w-full md:w-32 xl:w-32 xg:w-32 text-white shadow text-center bg-gray-400 rounded px-4 py-2 m-2 hover:bg-gray-500">
+                        <a href="{{ $back_url }}">Kembali</button>
                     </div>
                 </div>
             </form>
@@ -241,18 +244,6 @@
             return;
 
           });
-
-
-          console.log(createdElements)
-
-            // sibling = document.querySelector(sibling);
-            // if (sibling.getAttribute('disabled') == "disabled") {
-            //     sibling.removeAttribute('disabled')
-            //     return;
-            // }
-
-            // sibling.setAttribute('disabled', 'disabled')
-            // return;
         }
     </script>
 

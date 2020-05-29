@@ -60,7 +60,7 @@
                         Nama Lengkap
                       </label>
                       <input type="hidden" name="_token" value="{{ $csrf_token }}">
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_depan" type="text" autofocus="autofocus" value="{{ $old['nama_depan'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_depan" type="text" autofocus="autofocus" value="{{ $old['name_student'] ?? $old['nama_depan'] }}">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -76,7 +76,7 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                         No. Induk Kependudukan
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nik_siswa" type="text" maxlength="16" value="{{ $old['nik_siswa'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nik_siswa" type="text" maxlength="16" value="{{ $old['nik_student'] ?? $old['nik_siswa'] }}">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -84,8 +84,9 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
                         Jenis Kelamin
                       </label>
-                      <input class="text-gray-700 py-3 px-4 mb-3 mr-2" name="jenis_kelamin" type="radio" value="L" checked="checked"> Laki - Laki
-                      <input class="text-gray-700 py-3 px-4 mb-3 ml-4 mr-2" name="jenis_kelamin" type="radio" value="P"> Perempuan
+
+                      <input class="text-gray-700 py-3 px-4 mb-3 mr-2" name="jenis_kelamin" type="radio" value="L" {{ ((isset($old['gender_student'])) && ($old['gender_student'] == 'L') || (isset($old['jenis_kelamin'])) && ($old['jenis_kelamin'] == 'L')) ? 'checked=checked' : '' }}> Laki - Laki
+                      <input class="text-gray-700 py-3 px-4 mb-3 ml-4 mr-2" name="jenis_kelamin" type="radio" value="P" {{ ((isset($old['gender_student'])) && ($old['gender_student'] == 'P') || (isset($old['jenis_kelamin'])) && ($old['jenis_kelamin'] == 'P')) ? 'checked=checked' : '' }}> Perempuan
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -93,14 +94,14 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Tempat Lahir
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tempat_lahir" type="text" value="{{ $old['tempat_lahir'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tempat_lahir" type="text" value="{{  $old['birthplace_student'] ?? $old['tempat_lahir'] }}">
                     </div>
                     <div class="w-full xl:w-1/2 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
                         Tanggal Lahir
                       </label>
                       <div class="relative">
-                         <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tanggal_lahir" type="date">
+                         <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="tanggal_lahir" type="date" value="{{ $old['birthdate_student'] ?? '' }}">
                       </div>
                     </div>
                 </div>
@@ -112,7 +113,7 @@
                       <div class="relative">
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="orangtua">
                           @foreach($orangtua_pendaftar as $orangtua)
-                            <option value="{{ $orangtua }}">{{ ucfirst($orangtua) }}</option>
+                            <option value="{{ $orangtua }}" {{ (strtolower($old['parent_student']) == strtolower($orangtua)) ? 'selected=selected' : '' }}>{{ ucfirst($orangtua) }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -127,7 +128,7 @@
                       <div class="relative">
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="status">
                           @foreach($status_pendaftar as $status)
-                            <option value="{{ $status }}">{{ ucfirst($status) }}</option>
+                            <option value="{{ $status }}" {{ (strtolower($old['status_student']) == strtolower($status)) ? 'selected=selected' : '' }}>{{ ucfirst($status) }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -139,13 +140,13 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Anak Ke
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="child_order" type="number" value="{{ $old['child_order'] ?? 1 }}" step="1" >
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="child_order" type="number" value="{{ $old['child_order_student'] ?? $old['child_order'] ?? 1 }}" step="1" >
                     </div>
                     <div class="w-full xl:w-1/6 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Jmlh Saudara
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="siblings" type="number"  value="{{ $old['siblings'] ?? 1 }}" step="1">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="siblings" type="number"  value="{{ $old['siblings_student'] ?? $old['siblings'] ?? 1 }}" step="1">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -156,7 +157,7 @@
                       <div class="relative">
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="agama">
                           @foreach($agama_pendaftar as $agama)
-                            <option value="{{ $agama }}">{{ ucfirst($agama) }}</option>
+                            <option value="{{ $agama }}" {{ (strtolower($old['agama_student']) == strtolower($agama)) ? 'selected=selected' : '' }}>{{ ucfirst($agama) }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -169,11 +170,11 @@
                         Golongan Darah
                       </label>
                       <div class="relative">
-                        <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="blood">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="AB">AB</option>
-                            <option value="O">O</option>
+                        <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="blood" >
+                            <option value="A" {{ (strtolower($old['blood_student']) == strtolower('A')) ? 'selected=selected' : '' }}>A</option>
+                            <option value="B" {{ (strtolower($old['blood_student']) == strtolower('B')) ? 'selected=selected' : '' }}>B</option>
+                            <option value="AB" {{ (strtolower($old['blood_student']) == strtolower('AB')) ? 'selected=selected' : '' }}>AB</option>
+                            <option value="O" {{ (strtolower($old['blood_student']) == strtolower('O')) ? 'selected=selected' : '' }}>O</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                           <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -184,7 +185,7 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zip">
                         No. Telepon
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="handphone" type="text" value="{{ $old['handphone'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="handphone" type="text" value="{{ $old['phone_student'] ?? $old['handphone'] }}">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -192,7 +193,7 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password">
                         Alamat
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="alamat" type="text" value="{{ $old['alamat'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="alamat" type="text" value="{{ $old['address_student'] ?? $old['alamat'] }}">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -200,26 +201,26 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         RT
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rt" type="number" value="{{ $old['rt'] ?? 1 }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rt" type="number" value="{{ (explode('/', $old['rt_rw_student'])[0]) ?? $old['rt'] ?? 1 }}">
                     </div>
                     <div class="w-full xl:w-1/6 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         RW
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rw" type="number" value="{{ $old['rw'] ?? 1 }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="rw" type="number" value="{{ (explode('/', $old['rt_rw_student'])[1]) ?? $old['rw'] ?? 1 }}">
                     </div>
                     <div class="w-full xl:w-2/6 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Desa / Kelurahan
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="desa" type="text" value="{{ $old['desa'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="desa" type="text" value="{{ $old['desa_student'] ?? $old['desa'] }}">
                     </div>
 
                     <div class="w-full xl:w-2/6 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zip">
                         Kecamatan
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="kecamatan" type="text" value="{{ $old['kecamatan'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="kecamatan" type="text" value="{{ $old['kecamatan_student'] ?? $old['kecamatan'] }}">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 xl:mb-6">
@@ -227,7 +228,7 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Kota
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="kota" type="text" value="{{ $old['kota'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="kota" type="text" value="{{ $old['kota_student'] ?? $old['kota'] }}">
                     </div>
                     <div class="w-full xl:w-1/3 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
@@ -236,7 +237,7 @@
                       <div class="relative">
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="provinsi">
                           @foreach($provinsi as $prov)
-                            <option value="{{ $prov['name'] }}">{{ $prov['name'] }}</option>
+                            <option value="{{ $prov['name'] }}" {{ (strtolower($old['provinsi_student']) == strtolower($prov['name'])) ? 'selected=selected' : '' }}>{{ $prov['name'] }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -248,7 +249,7 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zip">
                         Kode POS
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pos" type="text" value="{{ $old['pos'] }}" maxlength="6">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="pos" type="text" value="{{ $old['pos_student'] ?? $old['pos'] }}" maxlength="6">
                     </div>
                 </div>
 
@@ -257,13 +258,13 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password">
                         Alat Transportasi Ke Sekolah
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="transport" type="text" value="{{ $old['transport'] }}">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="transport" type="text" value="{{ $old['transport_student'] ?? $old['transport'] }}">
                     </div>
                     <div class="w-full md:w-1/4 px-3 mb-6 xl:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zip">
                         Jarak (KM)
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="distance" value="{{ $old['distance'] }}" type="number" step="0.1">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="distance" value="{{ $old['distance_student'] ?? $old['distance'] }}" type="number" step="0.1">
                     </div>
                 </div>
 
@@ -275,7 +276,7 @@
                       <div class="relative">
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="accommodation">
                           @foreach($bantuan_pendaftar as $item)
-                            <option value="{{ $item }}">{{ ucwords($item) }}</option>
+                            <option value="{{ $item }}" {{ (strtolower($old['accommodation_student']) == strtolower($item)) ? 'selected=selected' : '' }}>{{ ucwords($item) }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -290,7 +291,7 @@
                       <div class="relative">
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="home">
                           @foreach($home_pendaftar as $item)
-                            <option value="{{ $item }}">{{ ucwords($item) }}</option>
+                            <option value="{{ $item }}" {{ (strtolower($old['home_student']) == strtolower($item)) ? 'selected=selected' : '' }}>{{ ucwords($item) }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

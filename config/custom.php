@@ -40,6 +40,9 @@ return [
             'gagal' => 'red'
         ]
     ],
+    'status' => [
+        'awal','pemberkasan','sekolah','orangtua','pembayaran','selesai'
+    ],
     'upload_path' => 'public/files/',
     'images_path' => 'public/images/'
 ];

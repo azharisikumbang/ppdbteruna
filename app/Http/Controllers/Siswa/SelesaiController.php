@@ -27,7 +27,8 @@ class SelesaiController extends Controller
                 'title' => 'Terima Kasih!',
                 'body' => 'Data anda sedang kami diproses.',
                 'desc' => 'Anda juga bisa melakukan pengecekan berkala pada halaman web ini untuk mengetahui perkembangan validasi data anda.'
-            ]
+            ],
+            'back_url' => url('/siswa/redirector?current=selesai&to=pembayaran')
         ];
 
         $status = Registration::where('id_registration', $data['registration_id'])->first(['status_registration']);
@@ -38,29 +39,51 @@ class SelesaiController extends Controller
             $data['message']['desc'] = "";
         }
 
-        $file = File::where('type_file', 'integrasi')
-            ->where('registration_id', $data['registration_id'])
-            ->first();
+        return view('siswa.finish', $data);
+    }
 
-        $filename = (isset($file->name_file)) ? $file->name_file : '';
+    private function createOrUpdateFile(Request $request, $fileType)
+    {
+        $arrayTypeFile = ['integrasi', 'biodata'];
+        $fileType = strtolower($fileType);
 
-        if (!$file) {
-            $filename = $data['registration_id'] . '_' . time() . '.pdf';
+        if (in_array($fileType, $arrayTypeFile)) {
 
-            File::Create([
-                'name_file' => "I" . $filename,
-                'type_file' => 'integrasi',
-                'registration_id' => $data['registration_id'],
-                'code_user' => $request->session()->get('code_user')
-            ]);
+            $prefix = ($fileType == 'integrasi') ? 'B' : 'I';
+            $filename = $prefix . $request->session()->get('registration_id') . '_' . time() . '.pdf';
 
-            File::Create([
-                'name_file' => "B" . $filename,
-                'type_file' => 'biodata',
-                'registration_id' => $data['registration_id'],
-                'code_user' => $request->session()->get('code_user')
-            ]);
+            // File Integrasi
+            if (File::where([
+                        'type_file' => $fileType,
+                        'registration_id' => $request->session()->get('registration_id')
+                    ])->exists()) {
 
+                    File::where([
+                        'type_file' => $fileType,
+                        'registration_id' => $request->session()->get('registration_id')
+                    ])->update(['name_file' => $filename]);
+
+                } else {
+                    File::Create([
+                        'name_file' => $filename,
+                        'type_file' => $fileType,
+                        'registration_id' => $request->session()->get('registration_id'),
+                        'code_user' => $request->session()->get('code_user')
+                    ]);
+                }
+
+            return [$filename, $fileType];
+        }
+
+        return false;
+    }
+
+    private function generate(Request $request, $fileType)
+    {
+
+        $file = $this->createOrUpdateFile($request, $fileType);
+
+        if ($file[1] == 'integrasi') {
             $integrasi = Registration::with([
                 'student' => function($query) {
                     $query->select('registration_id', 'name_student', 'birthplace_student', 'birthdate_student', 'phone_student', 'address_student', 'desa_student', 'kecamatan_student', 'kota_student', 'provinsi_student', 'agama_student', 'pos_student', 'majoring_student');
@@ -72,8 +95,8 @@ class SelesaiController extends Controller
             ->first(['id_registration', 'created_at']);
 
             $pdf = PDF::loadView('templates.integrasi', ['data' => $integrasi]);
-            $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'integrasi/I' . $filename));
-
+            $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'integrasi/' . $file[0]));
+        } else {
             $biodata = Registration::with([
                     'student',
                     'file' => function($query) {
@@ -87,25 +110,25 @@ class SelesaiController extends Controller
                 ->first();
 
             $pdf = PDF::loadView('templates.biodata', ['data' => $biodata]);
-            $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'biodata/B' . $filename));
-
+            $pdf->setPaper('a4')->save(base_path(config('custom.upload_path') . 'biodata/' . $file[0]));
         }
 
-        return view('siswa.finish', $data);
+        return [$file[0], $file[1]];
     }
 
     public function download(Request $request)
     {
+        $arrayTypeFile = ['integrasi', 'biodata'];
+        $fileType = strtolower($request->file);
 
-        if ($request->file && ($request->file == 'biodata' || $request->file == 'integrasi')) {
-            $file = File::where('type_file', $request->file)
-                ->where('registration_id', $request->session()->get('registration_id'))
-                ->first('name_file');
+        if (in_array($fileType, $arrayTypeFile)) {
 
-            return redirect(url('/files/' . $request->file . '/' . $file->name_file));
+            $file = $this->generate($request, $fileType);
+
+            return redirect(url('/files/' . $file[1] . '/' . $file[0]));
         }
 
-        abort(404);
+        return abort(404);
 
     }
 

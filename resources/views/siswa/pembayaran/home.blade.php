@@ -63,7 +63,7 @@
                         Nama Akun Pengirim
                       </label>
                       <input type="hidden" name="_token" value="{{ $csrf_token }}">
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_rekening" type="text" autofocus="autofocus">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="nama_rekening" type="text" autofocus="autofocus" value="{{ $old['name_payment'] }}">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-6">
@@ -74,7 +74,7 @@
                       <div class="relative">
                         <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="bank_rekening">
                           @foreach($bank_payment as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
+                            <option value="{{ $item }}" {{ (strtolower($old['bank_payment']) == strtolower($item)) ? 'selected=selected' : '' }}>{{ $item }}</option>
                           @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -86,13 +86,13 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
                         Nomor Rekening Pengirim
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nomor_rekening" type="text">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nomor_rekening" type="text" value="{{ $old['number_payment'] }}">
                     </div>
                     <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="state">
                         Nominal Pembayaran
                       </label>
-                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nominal" type="number" value="0">
+                      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="nominal" type="number" value="{{ $old['nominal_payment'] ?? 0 }}">
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-6">
@@ -106,6 +106,9 @@
                  <div class="flex justify-end -mx-3 mt-6 xl:mb-6">
                     <div class="w-full md:w-32 xl:w-32 xg:w-32 text-white shadow text-center bg-green-400 rounded px-4 py-2 m-2 hover:bg-green-500">
                         <button type="submit">Lanjutkan</button>
+                    </div>
+                    <div class="w-full sm:w-full md:w-32 xl:w-32 xg:w-32 text-white shadow text-center bg-gray-400 rounded px-4 py-2 m-2 hover:bg-gray-500">
+                        <a href="{{ $back_url }}">Kembali</button>
                     </div>
                 </div>
             </form>

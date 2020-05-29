@@ -66,6 +66,9 @@
                 <div class="text-white shadow text-center bg-green-400 rounded-full px-4 py-2 m-2 hover:bg-green-500">
                     <a href="{{ url('/siswa/download?file=integrasi') }}">Unduh Tanda Integrasi</a>
                 </div>
+                <!-- <div class="text-white shadow text-center bg-gray-400 rounded-full px-4 py-2 m-2 hover:bg-gray-500">
+                    <a href="{{ $back_url }}">Kembali</a>
+                </div> -->
             </div>
         </div>
     </div>

@@ -18,6 +18,14 @@ class PembekasanController extends Controller
      */
     public function index(Request $request)
     {
+
+        if (isset($request->from)) {
+            if (in_array(strtolower($request->from), config('custom.status'))) {
+                $data['redirector'] = Student::where('registration_id', $request->session()->get('registration_id'))
+                    ->first();
+            }
+        }
+
         $data = [
             'username' => $request->session()->get('username'),
             'provinsi' => config('custom.provinsi'),
@@ -27,9 +35,10 @@ class PembekasanController extends Controller
             'bantuan_pendaftar' => config('custom.bantuan_pendaftar'),
             'home_pendaftar' => config('custom.home_pendaftar'),
             'message' => $request->session()->get('message'),
-            'old' => $request->session()->get('old'),
+            'old' => $data['redirector'] ?? $request->session()->get('old'),
             'csrf_token' => $request->session()->get('_token')
         ];
+
         return view('siswa.pemberkasan.home', $data);
     }
 
@@ -37,11 +46,9 @@ class PembekasanController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'nama_depan' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,gif,webp|max:2048',
             'nik_siswa' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
-            'agama' => 'required',
             'status' => 'required',
             'orangtua' => 'required',
             'alamat' => 'required',
@@ -49,10 +56,6 @@ class PembekasanController extends Controller
             'kecamatan' => 'required',
             'kota' => 'required',
             'provinsi' => 'required',
-            'pos' => 'required',
-            'rt' => 'required',
-            'rw' => 'required',
-            'handphone' => 'required'
         ], [
             'required' => 'Kolom :attribute masih kosong!'
         ]);
@@ -61,18 +64,34 @@ class PembekasanController extends Controller
 
             $filename = NULL;
 
-            if ($request->file('photo')->isValid()) {
-                $filename = "F". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('photo')->getClientOriginalExtension();
+            if ($request->file('photo') != null) {
+                if ($request->file('photo')->isValid()) {
+                    $filename = "F". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('photo')->getClientOriginalExtension();
 
-                $request->file('photo')->move(base_path(config('custom.upload_path') . 'photo/'), $filename);
+                    $request->file('photo')->move(base_path(config('custom.upload_path') . 'photo/'), $filename);
+                }
             }
 
-            File::Create([
-                'name_file' => $filename,
-                'type_file' => 'photo',
-                'registration_id' => $request->session()->get('registration_id'),
-                'code_user' => $request->session()->get('code_user')
-            ]);
+            if (
+                File::where([
+                    'type_file' => 'photo',
+                    'registration_id' => $request->session()->get('registration_id')
+                ])->exists())
+            {
+
+                File::where([
+                    'type_file' => 'photo',
+                    'registration_id' => $request->session()->get('registration_id')
+                ])->update(['name_file' => $filename]);
+
+            } else {
+                File::Create([
+                    'name_file' => $filename,
+                    'type_file' => 'photo',
+                    'registration_id' => $request->session()->get('registration_id'),
+                    'code_user' => $request->session()->get('code_user')
+                ]);
+            }
 
             if (Registration::orderBy('created_at', 'desc')->first()) {
                 $id_registration = Registration::orderBy('created_at', 'desc')->first()->id_registration;
@@ -144,7 +163,6 @@ class PembekasanController extends Controller
             'home' => $request->home,
             'siblings' => $request->siblings,
             'child_order' => $request->child_order,
-
         ];
 
         $message = $validate->errors()->first();

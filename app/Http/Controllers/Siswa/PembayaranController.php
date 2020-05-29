@@ -20,18 +20,22 @@ class PembayaranController extends Controller
      */
     public function index(Request $request)
     {
-        $jurusan = Student::where('registration_id', $request->session()->get('registration_id'))
-            ->first('majoring_student');
 
-        $nominal = config('custom.data.biaya.' . $jurusan->majoring_student);
+        if (isset($request->from)) {
+            if (in_array(strtolower($request->from), config('custom.status'))) {
+                $data['redirector'] = Payment::where('registration_id', $request->session()->get('registration_id'))
+                    ->first();
+            }
+        }
 
         $data = [
             'username' => $request->session()->get('username'),
             'registration_id' => $request->session()->get('registration_id'),
             'bank_payment' => config('custom.bank_payment'),
-            'nominal' => $nominal,
             'message' => $request->session()->get('message'),
-            'csrf_token' => $request->session()->get('_token')
+            'csrf_token' => $request->session()->get('_token'),
+            'old' => $data['redirector'] ?? $request->session()->get('old'),
+            'back_url' => url('/siswa/redirector?current=pembayaran&to=orangtua')
         ];
 
         return view('siswa.pembayaran.home', $data);
@@ -48,28 +52,43 @@ class PembayaranController extends Controller
             'file' => 'required|image|mimes:jpeg,png,gif,webp|max:2048'
         ], ['required' => 'Kolom :attribute masih kosong!']);
 
+        $requestData = [
+            'registration_id' => $request->session()->get('registration_id'),
+            'name_payment' => $request->nama_rekening,
+            'bank_payment' => $request->bank_rekening,
+            'number_payment' => $request->nomor_rekening,
+            'nominal_payment' => $request->nominal,
+            'code_user' => $request->session()->get('code_user')
+        ];
+
         if (!$validate->fails()) {
 
             if ($request->file('file')->isValid()) {
 
-                $update = Payment::Create([
-                    'registration_id' => $request->session()->get('registration_id'),
-                    'name_payment' => $request->nama_rekening,
-                    'bank_payment' => $request->bank_rekening,
-                    'number_payment' => $request->nomor_rekening,
-                    'code_user' => $request->session()->get('code_user')
-                ]);
+                $update = Payment::Create($requestData);
 
                 $filename = "P". $request->session()->get('registration_id') . "_" . time() . "." . $request->file('file')->getClientOriginalExtension();
 
                 $request->file('file')->move(base_path(config('custom.upload_path') . 'pembayaran/'), $filename);
 
-                File::Create([
-                    'name_file' => $filename,
-                    'type_file' => 'pembayaran',
-                    'registration_id' => $request->session()->get('registration_id'),
-                    'code_user' => $request->session()->get('code_user')
-                ]);
+                if (File::where([
+                        'type_file' => 'pembayaran',
+                        'registration_id' => $request->session()->get('registration_id')
+                    ])->exists()) {
+
+                    File::where([
+                        'type_file' => 'pembayaran',
+                        'registration_id' => $request->session()->get('registration_id')
+                    ])->update(['name_file' => $filename ?? NULL]);
+
+                } else {
+                    File::Create([
+                        'name_file' => $filename ?? NULL,
+                        'type_file' => 'pembayaran',
+                        'registration_id' => $request->session()->get('registration_id'),
+                        'code_user' => $request->session()->get('code_user')
+                    ]);
+                }
 
                 if ($update) {
                     Registration::where('id_registration', $request->session()->get('registration_id'))
@@ -86,6 +105,7 @@ class PembayaranController extends Controller
         $message = (isset($message)) ? $message : $validate->errors()->first();
 
         $request->session()->flash('message', $message);
+        $request->session()->flash('old', $requestData);
         return redirect('/siswa/pembayaran');
     }
 

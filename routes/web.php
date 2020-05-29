@@ -9,6 +9,7 @@ $router->get('/daftar', ['middleware' => 'loginRedirector', 'uses' => 'RegisterC
 $router->post('/daftar', ['middleware' => 'loginRedirector', 'uses' => 'RegisterController@store']);
 
 $router->get('/siswa', ['middleware' => ['login', 'reg'], 'uses' => 'Siswa\HomeController@index']);
+$router->get('/siswa/redirector', ['middleware' => ['login'], 'uses' => 'Siswa\RedirectorController@getter']);
 
 $router->get('/siswa/pemberkasan', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\PembekasanController@index']);
 $router->post('/siswa/pemberkasan', ['middleware' => ['login', 'reg'], 'uses' =>'Siswa\PembekasanController@store']);
