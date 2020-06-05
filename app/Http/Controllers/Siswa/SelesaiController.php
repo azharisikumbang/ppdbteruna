@@ -39,7 +39,27 @@ class SelesaiController extends Controller
             $data['message']['desc'] = "";
         }
 
+        if (!$this->isRecordExists($request, 'integrasi')) {
+            $this->generate($request, 'integrasi');
+        }
+
+        if (!$this->isRecordExists($request, 'biodata')) {
+            $this->generate($request, 'biodata');
+        }
+
         return view('siswa.finish', $data);
+    }
+
+    private function isRecordExists(Request $request, $fileType = 'integrasi') {
+        if (File::where([
+                'type_file' => $fileType,
+                'registration_id' => $request->session()->get('registration_id')
+            ])->exists()) {
+
+            return true;
+        }
+
+        return false;
     }
 
     private function createOrUpdateFile(Request $request, $fileType)
@@ -52,25 +72,20 @@ class SelesaiController extends Controller
             $prefix = ($fileType == 'integrasi') ? 'B' : 'I';
             $filename = $prefix . $request->session()->get('registration_id') . '_' . time() . '.pdf';
 
-            // File Integrasi
-            if (File::where([
-                        'type_file' => $fileType,
-                        'registration_id' => $request->session()->get('registration_id')
-                    ])->exists()) {
-
-                    File::where([
-                        'type_file' => $fileType,
-                        'registration_id' => $request->session()->get('registration_id')
-                    ])->update(['name_file' => $filename]);
-
-                } else {
-                    File::Create([
-                        'name_file' => $filename,
-                        'type_file' => $fileType,
-                        'registration_id' => $request->session()->get('registration_id'),
-                        'code_user' => $request->session()->get('code_user')
-                    ]);
-                }
+            // File exists
+            if ($this->isRecordExists($request, $fileType)) {
+                File::where([
+                    'type_file' => $fileType,
+                    'registration_id' => $request->session()->get('registration_id')
+                ])->update(['name_file' => $filename]);
+            } else {
+                File::Create([
+                    'name_file' => $filename,
+                    'type_file' => $fileType,
+                    'registration_id' => $request->session()->get('registration_id'),
+                    'code_user' => $request->session()->get('code_user')
+                ]);
+            }
 
             return [$filename, $fileType];
         }
