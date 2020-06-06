@@ -44,6 +44,8 @@ $router->get('/admin/data', ['middleware' => 'role', 'uses' => 'Admin\DataContro
 $router->get('/admin/search', ['middleware' => 'role', 'uses' => 'Admin\HomeController@search']);
 $router->get('/admin/validasi', ['middleware' => 'role', 'uses' => 'Admin\DataController@validasi']);
 $router->post('/admin/validator', ['middleware' => 'role', 'uses' => 'Admin\DataController@validator']);
+$router->get('/admin/export', ['middleware' => 'login', 'uses' => 'Admin\ExportController@index']);
+$router->get('/admin/export/excel', ['middleware' => 'login', 'uses' => 'Admin\ExportController@toExcel']);
 $router->get('/admin/data/{status}', ['middleware' => 'role', 'uses' => 'Admin\DataController@status']);
 $router->get('/admin/detail/{regid}', ['middleware' => 'role', 'uses' => 'Admin\DataController@detail']);
 $router->get('/admin/detail/{regid}/regenerate', ['middleware' => 'role', 'uses' => 'Admin\DataController@regenerate']);

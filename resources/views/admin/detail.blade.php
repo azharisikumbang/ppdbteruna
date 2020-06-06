@@ -11,7 +11,7 @@
         @endif
 
     </h3>
-    <div class=" bg-white p-6 shadow rounded-md">
+    <div class="bg-white p-6 shadow rounded-md">
         <div class="grid grid-cols-2">
           <div class="pr-10">
             <table class="w-full">
