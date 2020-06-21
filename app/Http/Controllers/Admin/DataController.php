@@ -46,8 +46,6 @@ class DataController extends Controller
         return view('admin.validasi', $data);
     }
 
-
-
     public function validator(Request $request, Response $response)
     {
         $validate = Validator::make($request->all(), [

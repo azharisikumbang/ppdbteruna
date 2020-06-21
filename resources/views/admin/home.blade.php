@@ -29,7 +29,9 @@
             @isset($registrasi['jurusan'])
                 @foreach($registrasi['jurusan'] as $key => $value)
                 <tr>
-                    <td class="px-4 py-2 border-2">{{ config('custom.data.jurusan.' . $key) . ' (' . $key . ')'}}</td>
+                    <td class="px-4 py-2 border-2">
+                        <a class="hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-900" href="{{ url('/admin/data/jurusan/' . strtolower($key)) }}">{{ config('custom.data.jurusan.' . $key) . ' (' . $key . ')'}}</a>
+                    </td>
                     <td class="px-4 py-2 border-2 text-center">{{ $value->counter }}</td>
                 </tr>
                 @endforeach

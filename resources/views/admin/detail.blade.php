@@ -8,6 +8,7 @@
         @if(isset($registrasi['file'][2]) && $registrasi['file'][2]['type_file'] == 'skhun')
             <small>(<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" target="_blank" href="{{ url('/files/biodata/' . $registrasi['file'][5]['name_file']) }}">unduh</a>)</small>
             <small>(<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/detail/' . $registrasi->id_registration . '/regenerate') }}">re-generate</a>)</small>
+            <small> | (<a class="text-sm hover:border-gray-900 border-dotted border-b-2 border-gray-400 text-gray-700" href="{{ url('/admin/export/' . $registrasi->id_registration . '/bukuinduk') }}">unduh buku induk</a>)</small>
         @endif
 
     </h3>
