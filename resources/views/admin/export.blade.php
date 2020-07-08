@@ -22,7 +22,7 @@
                     Total Data
                 </td>
                 <td>
-                    : {{ $rows }} baris
+                    : {{ $rows }} baris  <span class="italic text-sm"> (*pendaftar tervalidasi)</span>
                 </td>
             </tr>
             <tr>

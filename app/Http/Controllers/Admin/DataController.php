@@ -73,6 +73,32 @@ class DataController extends Controller
 
     }
 
+    public function delete(Request $request)
+    {
+
+        $message = [
+            'status' => false,
+            'message' => 'Gagal!'
+        ];
+
+        $validate = Validator::make($request->all(), [
+            'regid' => 'required',
+            'validator' => 'required',
+        ]);
+
+
+        if (!$validate->fails()) {
+            Registration::where('id_registration', $request->regid)
+                ->delete();
+
+            $message['status'] = true;
+            $message['message'] = 'Berhasi!';
+        }
+
+        return response()->json($message);
+
+    }
+
     public function detail(Request $request)
     {
         $registrasi = Registration::with([

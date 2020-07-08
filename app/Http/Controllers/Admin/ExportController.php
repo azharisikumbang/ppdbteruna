@@ -23,7 +23,7 @@ class ExportController extends Controller
             'username' => $request->session()->get('username'),
             'role' => $request->session()->get('role'),
             'csrf_token' => $request->session()->get('_token'),
-            'rows' => Registration::all()->count()
+            'rows' => Registration::where('status_registration', 'tervalidasi')->get()->count()
         ];
 
         return view('admin.export', $data);

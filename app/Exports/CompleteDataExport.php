@@ -9,7 +9,8 @@ class CompleteDataExport implements FromView
 {
     public function view() : View
     {
-        $data = Registration::with('student', 'parent', 'score')->get();
+        $data = Registration::with('student', 'parent', 'score')
+            ->where('status_registration', 'tervalidasi')->get();
         $tahun = (isset($data[0]->created_at)) ? date("Y", strtotime($data[0]->created_at)) : date("Y");
         return view('templates.excel', ['data' => $data, 'tahun' => $tahun]);
     }

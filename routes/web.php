@@ -45,6 +45,7 @@ $router->get('/admin/data', ['middleware' => 'role', 'uses' => 'Admin\DataContro
 $router->get('/admin/search', ['middleware' => 'role', 'uses' => 'Admin\HomeController@search']);
 $router->get('/admin/validasi', ['middleware' => 'role', 'uses' => 'Admin\DataController@validasi']);
 $router->post('/admin/validator', ['middleware' => 'role', 'uses' => 'Admin\DataController@validator']);
+$router->post('/admin/delete', ['middleware' => 'role', 'uses' => 'Admin\DataController@delete']);
 
 // Export
 $router->get('/admin/export', ['middleware' => 'login', 'uses' => 'Admin\ExportController@index']);

@@ -268,6 +268,18 @@
             }
         }
 
+        function deleteData(event){
+            event.dataset._token = "<?= $csrf_token ?>"
+            let message = 'Anda yakin ingin menghapus data pendaftar?';
+
+            if (confirm(message)) {
+                axios.post("{{ url('/admin/delete') }}", event.dataset)
+                    .then(res => {
+                        event.parentNode.parentNode.remove();
+                    });
+            }
+        }
+
         /*Toggle dropdown list*/
         /*https://gist.github.com/slavapas/593e8e50cf4cc16ac972afcbad4f70c8*/
 

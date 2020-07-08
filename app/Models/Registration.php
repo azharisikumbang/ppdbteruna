@@ -64,4 +64,16 @@ class Registration extends Model
         );
     }
 
+    public function delete()
+    {
+        $this->student()->delete();
+        $this->file()->delete();
+        $this->payment()->delete();
+        $this->user()->delete();
+        $this->parent()->delete();
+        $this->score()->delete();
+
+        return parent::delete();
+    }
+
 }

@@ -12,6 +12,7 @@
                    <th class="px-4 py-4 bg-gray-200 border-2">Nama</th>
                    <th class="px-4 py-4 bg-gray-200 border-2">No. Rekening</th>
                    <th class="px-4 py-4 bg-gray-200 border-2">Status</th>
+                   <th class="px-4 py-4 bg-gray-200 border-2">Action</th>
                </tr>
            </thead>
            <tbody>
@@ -43,10 +44,13 @@
                             <button class="px-4 py-1 text-white rounded shadow bg-{{ $html['color']["{$regis->status_registration}"] }}-500">
                                 {{ $regis->status_registration }}
                             </button>
-                            @if($regis->status_registration == 'menunggu')
-                                <button onclick="validate(this)" data-status='tervalidasi' data-regid="{{ $regis->id_registration }}" title="Klik untuk memvalidasi" data-validator="{{ $code_user }}" type="button" class="bg-orange-500 px-4 py-1 hover:bg-white hover:text-orange-500 text-white rounded shadow">validasi ?</button>
-                            @endif
                         @endif
+                    </td>
+                    <td class="px-4 py-2 border-2 text-center">
+                        @if($regis->status_registration == 'menunggu')
+                            <button onclick="validate(this)" data-status='tervalidasi' data-regid="{{ $regis->id_registration }}" title="Klik untuk memvalidasi" data-validator="{{ $code_user }}" type="button" class="bg-orange-500 px-4 py-1 hover:bg-white hover:text-orange-500 text-white rounded shadow">✓</button>
+                        @endif
+                        <button onclick="deleteData(this)" data-regid="{{ $regis->id_registration }}" title="Klik untuk menghapus data" data-validator="{{ $code_user }}" type="button" class="bg-red-700 px-4 py-1 hover:bg-white hover:text-red-500 text-white rounded shadow">X</button>
                     </td>
                 </tr>
                 @endforeach
