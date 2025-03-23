@@ -9,20 +9,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements AuthenticatableContract, AuthorizableContract
 {
     protected $fillable = [
-        'email_user',
-        'code_user',
-        'role_user',
-        'password_user',
-        'username_user'
+        'email',
+        'email_verified_at',
+        'password',
+        'remember_token'
     ];
 
     protected $hidden = [
-        'password_user'
+        'password',
+        'remember_token'
     ];
-
-    protected $primaryKey = 'id_user';
-
-    public $incrementing = false;
 
     public function student()
     {
