@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
-use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 use Illuminate\Support\Facades\App;
@@ -50,7 +50,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if (App::environment(['local', 'staging'])) {
+        if (App::environment(['local', 'staging']))
+        {
             return parent::render($request, $exception);
         }
 
@@ -79,6 +80,6 @@ class Handler extends ExceptionHandler
         $data['title'] = 'Page Not Found';
         $data['body'] = 'Halaman yang anda tidak memiliki izin untuk mengakses halaman ini. Mohon periksa kembali tujuan anda.';
 
-        return view('errors.page', $data);
+        return response()->make(view('errors.page', $data), 404);
     }
 }

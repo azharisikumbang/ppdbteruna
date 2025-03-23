@@ -1,15 +1,21 @@
 {
     "name": "laravel/lumen",
     "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "lumen"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.2.5|^7.4",
         "barryvdh/laravel-dompdf": "^0.8.6",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^3.0",
         "illuminate/cookie": "^7.9",
         "illuminate/session": "^7.9",
-        "laravel/lumen-framework": "^7.0",
+        "laravel/framework": "^7.29",
         "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
@@ -45,6 +51,6 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "start" : "php -S localhost:8000 -t public"
+        "start": "php -S localhost:8000 -t public"
     }
 }
