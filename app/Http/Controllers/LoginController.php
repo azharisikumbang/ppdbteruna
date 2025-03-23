@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Registration;
 
-class loginController extends Controller
+class LoginController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -17,9 +17,22 @@ class loginController extends Controller
      */
     public function index(Request $request)
     {
-        $data['message'] = $request->session()->get('message')['message'];
-        $data['username'] = $request->session()->get('message')['username'];
-        $data['csrf_token'] = $request->session()->get('_token');
+        $data = [
+            'message' => '',
+            'username' => '',
+            'csrf_token' => $request->session()->get('_token')
+
+        ];
+        $session = $request->session()->all();
+
+        if (isset($session['message']))
+        {
+
+            $data = [
+                'message' => $request->session()->get('message')['message'],
+                'username' => $request->session()->get('message')['username']
+            ];
+        }
 
         return view('login.home', $data);
     }
@@ -33,27 +46,33 @@ class loginController extends Controller
             'password' => 'required'
         ]);
 
-        if ($validate->fails()) {
+        if ($validate->fails())
+        {
             $message = "Form isian masih kosong";
-        } else {
+        } else
+        {
             $user = User::where('username_user', $request->username)
-            ->first();
+                ->first();
 
-            if ($user) {
-                if (Hash::check($request->password, $user->password_user)) {
+            if ($user)
+            {
+                if (Hash::check($request->password, $user->password_user))
+                {
 
                     $registration = Registration::where('code_user', $user->code_user)
                         ->get(['id_registration']);
 
                     // set session
-                    if (isset($registration[0]['id_registration'])) {
+                    if (isset($registration[0]['id_registration']))
+                    {
                         $request->session()->put('registration_id', $registration[0]['id_registration']);
                     }
 
                     $request->session()->put('username', $request->username);
                     $request->session()->put('code_user', $user->code_user);
                     $request->session()->put('role', $user->role_user);
-                    if ($user->role_user == 'admin') {
+                    if ($user->role_user == 'admin')
+                    {
                         return redirect('/admin');
                     }
                     return redirect('/siswa');
@@ -84,7 +103,8 @@ class loginController extends Controller
             'password' => 'required|confirmed'
         ], ['required' => 'Kolom :attribute masih kosong!', 'confirmed' => 'Password dan password konfirmasi tidak cocok, coba lagi!']);
 
-        if (!$validate->fails()) {
+        if (!$validate->fails())
+        {
             $user = User::where('username_user', $request->session()->get('username'))
                 ->update(['password_user' => Hash::make($request->password)]);
 
