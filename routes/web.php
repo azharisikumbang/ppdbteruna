@@ -6,13 +6,13 @@ Route::get('/', 'HomeController@index');
 Route::get('/some-route', 'SomeRouteController@index');
 
 Route::get('/word', 'HomeController@word');
-Route::get('/masuk', ['middleware' => 'loginRedirector', 'uses' => 'LoginController@index']);
-Route::post('/masuk', ['middleware' => 'loginRedirector', 'uses' => 'LoginController@verify']);
+Route::get('/masuk', ['middleware' => 'login_redirector', 'uses' => 'LoginController@index']);
+Route::post('/masuk', ['middleware' => 'login_redirector', 'uses' => 'LoginController@verify']);
 Route::get('/keluar', 'LoginController@logout');
 
 // User
-Route::get('/daftar', ['middleware' => 'loginRedirector', 'uses' => 'RegisterController@index']);
-Route::post('/daftar', ['middleware' => 'loginRedirector', 'uses' => 'RegisterController@store']);
+Route::get('/daftar', ['middleware' => 'login_redirector', 'uses' => 'RegisterController@index']);
+Route::post('/daftar', ['middleware' => 'login_redirector', 'uses' => 'RegisterController@store']);
 
 Route::get('/siswa', ['middleware' => ['login', 'reg'], 'uses' => 'Siswa\HomeController@index']);
 Route::get('/siswa/redirector', ['middleware' => ['login'], 'uses' => 'Siswa\RedirectorController@getter']);
