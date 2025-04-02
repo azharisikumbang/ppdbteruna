@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Registration extends Model
 {
     protected $fillable = [
-        'id_registration', 'status_registration', 'current_registration', 'validate_by', 'code_user'
+        'registration_status',
+        'registrations_current_step',
+        'validated_by',
+        'current_user_id'
     ];
-
-    protected $primaryKey = 'id_registration';
-
-    public $incrementing = false;
 
 
     public function student()

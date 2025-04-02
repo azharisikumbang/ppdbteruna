@@ -23,7 +23,7 @@ class ExportController extends Controller
             'username' => $request->session()->get('username'),
             'role' => $request->session()->get('role'),
             'csrf_token' => $request->session()->get('_token'),
-            'rows' => Registration::where('status_registration', 'tervalidasi')->get()->count()
+            'rows' => Registration::where('registration_status', 'tervalidasi')->get()->count()
         ];
 
         return view('admin.export', $data);
@@ -40,13 +40,13 @@ class ExportController extends Controller
     public function bukuInduk(Request $request)
     {
         $data = Registration::with([
-                'student',
-                'parent',
-                'score',
-                'file' => function($query) {
-                    $query->orderBy('created_at', 'asc');
-                }
-            ])
+            'student',
+            'parent',
+            'score',
+            'file' => function ($query) {
+                $query->orderBy('created_at', 'asc');
+            }
+        ])
             ->where(['id_registration' => $request->regid])
             ->first();
 

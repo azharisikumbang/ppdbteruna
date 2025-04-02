@@ -14,18 +14,19 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $registrasi = Registration::with([
-                'user' => function($query) {
-                    $query->select('code_user', 'username_user');
-                }
-            ])
+            'user' => function ($query) {
+                $query->select('code_user', 'username_user');
+            }
+        ])
             ->orderBy('updated_at', 'desc')
             ->whereDate('updated_at', '=', date("Y-m-d"))
-            ->get(['id_registration', 'status_registration', 'validate_by', 'updated_at']);
+            ->get();
 
         $jurusan = [];
-        foreach (config('custom.data.jurusan') as $key => $value) {
-            $jurusan[$key] = $this->counter('students', ['majoring_student' => $key]);
-        }
+        // foreach (config('custom.data.jurusan') as $key => $value)
+        // {
+        //     $jurusan[$key] = $this->counter('students', ['majoring_student' => $key]);
+        // }
 
         $data = [
             'username' => $request->session()->get('username'),
@@ -39,10 +40,10 @@ class HomeController extends Controller
                 'data' => $registrasi,
                 'jurusan' => $jurusan,
                 'semua' => $this->counter('registrations'),
-                'tervalidasi' => $this->counter('registrations', ['status_registration' => 'tervalidasi']),
-                'menunggu' => $this->counter('registrations', ['status_registration' => 'menunggu']),
-                'pending' => $this->counter('registrations', ['status_registration' => 'pending']),
-                'gagal' => $this->counter('registrations', ['status_registration' => 'gagal'])
+                'tervalidasi' => $this->counter('registrations', ['registration_status' => 'tervalidasi']),
+                'menunggu' => $this->counter('registrations', ['registration_status' => 'menunggu']),
+                'pending' => $this->counter('registrations', ['registration_status' => 'pending']),
+                'gagal' => $this->counter('registrations', ['registration_status' => 'gagal'])
             ],
             'logger' => [
                 'tervalidasi' => ['berhasil divalidasi oleh', 'green'],
@@ -59,24 +60,25 @@ class HomeController extends Controller
     {
         $data = ['message' => 'not found'];
 
-        if ($request->q) {
+        if ($request->q)
+        {
             $searchTerm = $request->q;
             $registrasi = Registration::query()->with([
-                        'file' => function($query) {
-                            $query->orderBy('created_at', 'asc');
-                        },
-                        'payment'
-                    ])
-                    ->select(
-                        'registrations.id_registration',
-                        'registrations.status_registration',
-                        'students.name_student'
-                    )
-                    ->join('students', 'students.registration_id', 'registrations.id_registration')
-                    ->where('id_registration','LIKE','%'.$searchTerm.'%')
-                    ->orWhere('name_student', 'LIKE','%'.$searchTerm.'%')
-                    ->orWhere('status_registration', 'LIKE','%'.$searchTerm.'%')
-                    ->paginate(10);
+                'file' => function ($query) {
+                    $query->orderBy('created_at', 'asc');
+                },
+                'payment'
+            ])
+                ->select(
+                    'registrations.id_registration',
+                    'registrations.status_registration',
+                    'students.name_student'
+                )
+                ->join('students', 'students.registration_id', 'registrations.id_registration')
+                ->where('id_registration', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('name_student', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('status_registration', 'LIKE', '%' . $searchTerm . '%')
+                ->paginate(10);
 
             $data = [
                 'username' => $request->session()->get('username'),
@@ -99,7 +101,8 @@ class HomeController extends Controller
 
     private function counter($table, $where = null)
     {
-        if ($where) {
+        if ($where)
+        {
             return DB::table($table)
                 ->selectRaw('count(*) as counter')
                 ->where($where)

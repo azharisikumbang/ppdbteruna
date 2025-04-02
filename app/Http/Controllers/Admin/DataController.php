@@ -18,7 +18,7 @@ class DataController extends Controller
     public function validasi(Request $request)
     {
 
-        $registrasi = $this->getData($request, ['status_registration' => 'menunggu']);
+        $registrasi = $this->getData($request, ['registration_status' => 'menunggu']);
 
         $data = $this->setRenderData($request, $registrasi, ['title' => 'Form Validasi']);
         $data['csrf_token'] = $request->session()->get('_token');
@@ -38,7 +38,7 @@ class DataController extends Controller
 
     public function status(Request $request)
     {
-        $registrasi = $this->getData($request, ['status_registration' => $request->status]);
+        $registrasi = $this->getData($request, ['registration_status' => $request->status]);
 
         $data = $this->setRenderData($request, $registrasi, ['title' => $request->status], false);
         $data['csrf_token'] = $request->session()->get('_token');
@@ -55,7 +55,8 @@ class DataController extends Controller
         ]);
 
 
-        if (!$validate->fails()) {
+        if (!$validate->fails())
+        {
             Registration::where('id_registration', $request->regid)
                 ->update([
                     'status_registration' => $request->status,
@@ -87,7 +88,8 @@ class DataController extends Controller
         ]);
 
 
-        if (!$validate->fails()) {
+        if (!$validate->fails())
+        {
             Registration::where('id_registration', $request->regid)
                 ->delete();
 
@@ -102,14 +104,14 @@ class DataController extends Controller
     public function detail(Request $request)
     {
         $registrasi = Registration::with([
-                'student',
-                'file' => function($query) {
-                    $query->orderBy('created_at', 'asc');
-                },
-                'payment',
-                'parent',
-                'score'
-            ])
+            'student',
+            'file' => function ($query) {
+                $query->orderBy('created_at', 'asc');
+            },
+            'payment',
+            'parent',
+            'score'
+        ])
             ->where('id_registration', $request->regid)
             ->first();
 
@@ -133,19 +135,19 @@ class DataController extends Controller
             'registration_id' => $request->regid,
             'type_file' => 'biodata'
         ])
-        ->update([
-            'name_file' => $filename,
-        ]);
+            ->update([
+                'name_file' => $filename,
+            ]);
 
         $biodata = Registration::with([
-                'student',
-                'file' => function($query) {
-                    $query->orderBy('created_at', 'asc');
-                },
-                'payment',
-                'parent',
-                'score'
-            ])
+            'student',
+            'file' => function ($query) {
+                $query->orderBy('created_at', 'asc');
+            },
+            'payment',
+            'parent',
+            'score'
+        ])
             ->where('id_registration', $request->regid)
             ->first();
 
@@ -159,36 +161,36 @@ class DataController extends Controller
     private function getData($request, $where)
     {
         return Registration::with([
-            'student' => function($query) {
+            'student' => function ($query) {
                 $query->select('registration_id', 'name_student');
             },
-            'file' => function($query) {
+            'file' => function ($query) {
                 $query->select('registration_id', 'name_file')->where('type_file', 'pembayaran');
                 $query->orderBy('created_at', 'asc');
             },
-            'payment' => function($query) {
+            'payment' => function ($query) {
                 $query->select('registration_id', 'number_payment', 'bank_payment');
             }
         ])
-        ->where($where)
-        ->paginate(10, ['id_registration', 'status_registration']);
+            ->where($where)
+            ->paginate(10, ['id_registration', 'status_registration']);
     }
 
     private function getAll($request)
     {
         return Registration::with([
-            'student' => function($query) {
+            'student' => function ($query) {
                 $query->select('registration_id', 'name_student');
             },
-            'file' => function($query) {
+            'file' => function ($query) {
                 $query->select('registration_id', 'name_file')->where('type_file', 'pembayaran');
                 $query->orderby('name_file');
             },
-            'payment' => function($query) {
+            'payment' => function ($query) {
                 $query->select('registration_id', 'number_payment', 'bank_payment');
             }
         ])
-        ->paginate(10, ['id_registration', 'status_registration']);
+            ->paginate(10, ['id_registration', 'status_registration']);
     }
 
     private function setRenderData($request, $data, $html, $validasi = true)
