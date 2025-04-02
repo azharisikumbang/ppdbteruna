@@ -40,46 +40,56 @@ Route::put('/siswa/pembayaran', ['middleware' => ['login', 'reg'], 'uses' => 'Si
 Route::get('/siswa/selesai', ['middleware' => ['login', 'reg'], 'uses' => 'Siswa\SelesaiController@index']);
 Route::get('/siswa/download', ['middleware' => ['login'], 'uses' => 'Siswa\SelesaiController@download']);
 
-// Admin routes
-Route::get('/admin', ['middleware' => 'role', 'uses' => 'Admin\HomeController@index']);
+
 Route::get('/change', ['middleware' => 'login', 'uses' => 'LoginController@change']);
 Route::post('/change', ['middleware' => 'login', 'uses' => 'LoginController@updatePassword']);
-Route::post('/admin/add', ['middleware' => 'login', 'uses' => 'RegisterController@addAdmin']);
-Route::get('/admin/add', ['middleware' => 'login', 'uses' => 'RegisterController@newAdmin']);
-Route::get('/admin/data', ['middleware' => 'role', 'uses' => 'Admin\DataController@all']);
-Route::get('/admin/search', ['middleware' => 'role', 'uses' => 'Admin\HomeController@search']);
-Route::get('/admin/validasi', ['middleware' => 'role', 'uses' => 'Admin\DataController@validasi']);
-Route::post('/admin/validator', ['middleware' => 'role', 'uses' => 'Admin\DataController@validator']);
-Route::post('/admin/delete', ['middleware' => 'role', 'uses' => 'Admin\DataController@delete']);
 
-// Export
-Route::get('/admin/export', ['middleware' => 'login', 'uses' => 'Admin\ExportController@index']);
-Route::get('/admin/export/excel', ['middleware' => 'login', 'uses' => 'Admin\ExportController@toExcel']);
-Route::get('/admin/export/{regid}/bukuinduk', ['middleware' => 'login', 'uses' => 'Admin\ExportController@bukuInduk']);
-Route::get('/admin/data/jurusan/{jurusan}', ['middleware' => 'role', 'uses' => 'Admin\ViewerController@jurusan']);
-
-Route::get('/admin/data/{status}', ['middleware' => 'role', 'uses' => 'Admin\DataController@status']);
-
-Route::get('/admin/detail/{regid}/regenerate', ['middleware' => 'role', 'uses' => 'Admin\DataController@regenerate']);
-Route::get('/admin/detail/{regid}', ['middleware' => 'role', 'uses' => 'Admin\DataController@detail']);
+// Admin routes
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => 'auth'
+], function () {
+    Route::get('', ['uses' => 'Admin\HomeController@index']);
+    Route::post('/add', ['middleware' => 'login', 'uses' => 'RegisterController@addAdmin']);
+    Route::get('/add', ['middleware' => 'login', 'uses' => 'RegisterController@newAdmin']);
+    Route::get('/data', ['uses' => 'Admin\DataController@all']);
+    Route::get('/search', ['uses' => 'Admin\HomeController@search']);
+    Route::get('/validasi', ['uses' => 'Admin\DataController@validasi']);
+    Route::post('/validator', ['uses' => 'Admin\DataController@validator']);
+    Route::post('/delete', ['uses' => 'Admin\DataController@delete']);
 
 
-Route::get('/admin/perbaharui/biodata/{regid}', ['middleware' => 'role', 'uses' => 'Admin\EditController@editDataDiri']);
-Route::post('/admin/perbaharui/biodata/{regid}', ['middleware' => 'role', 'uses' => 'Admin\UpdateController@updateDataDiri']);
+    // Export
+    Route::get('export', ['uses' => 'Admin\ExportController@index']);
+    Route::get('export/excel', ['uses' => 'Admin\ExportController@toExcel']);
+    Route::get('export/{regid}/bukuinduk', ['uses' => 'Admin\ExportController@bukuInduk']);
+    Route::get('data/jurusan/{jurusan}', ['uses' => 'Admin\ViewerController@jurusan']);
 
-Route::get('/admin/perbaharui/ayah/{regid}', ['middleware' => 'role', 'uses' => 'Admin\EditController@editDataAyah']);
-Route::post('/admin/perbaharui/ayah/{regid}', ['middleware' => 'role', 'uses' => 'Admin\UpdateController@updateDataAyah']);
+    Route::get('data/{status}', ['uses' => 'Admin\DataController@status']);
 
-Route::get('/admin/perbaharui/ibu/{regid}', ['middleware' => 'role', 'uses' => 'Admin\EditController@editDataIbu']);
-Route::post('/admin/perbaharui/ibu/{regid}', ['middleware' => 'role', 'uses' => 'Admin\UpdateController@updateDataIbu']);
+    Route::get('detail/{regid}/regenerate', ['uses' => 'Admin\DataController@regenerate']);
+    Route::get('detail/{regid}', ['uses' => 'Admin\DataController@detail']);
 
-Route::get('/admin/perbaharui/wali/{regid}', ['middleware' => 'role', 'uses' => 'Admin\EditController@editDataWali']);
-Route::post('/admin/perbaharui/wali/{regid}', ['middleware' => 'role', 'uses' => 'Admin\UpdateController@updateDataWali']);
 
-Route::get('/admin/perbaharui/sekolah/{regid}', ['middleware' => 'role', 'uses' => 'Admin\EditController@editDataSekolah']);
-Route::post('/admin/perbaharui/sekolah/{regid}', ['middleware' => 'role', 'uses' => 'Admin\UpdateController@updateDataSekolah']);
+    Route::get('perbaharui/biodata/{regid}', ['uses' => 'Admin\EditController@editDataDiri']);
+    Route::post('perbaharui/biodata/{regid}', ['uses' => 'Admin\UpdateController@updateDataDiri']);
 
-Route::get('/admin/perbaharui/file/{type}/{regid}', ['middleware' => 'role', 'uses' => 'Admin\EditController@editDataFile']);
-Route::post('/admin/perbaharui/file/{type}/{regid}', ['middleware' => 'role', 'uses' => 'Admin\UpdateController@updateDataFile']);
+    Route::get('perbaharui/ayah/{regid}', ['uses' => 'Admin\EditController@editDataAyah']);
+    Route::post('perbaharui/ayah/{regid}', ['uses' => 'Admin\UpdateController@updateDataAyah']);
+
+    Route::get('perbaharui/ibu/{regid}', ['uses' => 'Admin\EditController@editDataIbu']);
+    Route::post('perbaharui/ibu/{regid}', ['uses' => 'Admin\UpdateController@updateDataIbu']);
+
+    Route::get('perbaharui/wali/{regid}', ['uses' => 'Admin\EditController@editDataWali']);
+    Route::post('perbaharui/wali/{regid}', ['uses' => 'Admin\UpdateController@updateDataWali']);
+
+    Route::get('perbaharui/sekolah/{regid}', ['uses' => 'Admin\EditController@editDataSekolah']);
+    Route::post('perbaharui/sekolah/{regid}', ['uses' => 'Admin\UpdateController@updateDataSekolah']);
+
+    Route::get('perbaharui/file/{type}/{regid}', ['uses' => 'Admin\EditController@editDataFile']);
+    Route::post('perbaharui/file/{type}/{regid}', ['uses' => 'Admin\UpdateController@updateDataFile']);
+});
+
+
 
 
