@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
 
         'login_redirector' => \App\Http\Middleware\LoginRedirector::class,
         'login' => \App\Http\Middleware\Login::class,
-        'role' => \App\Http\Middleware\Role::class
+        'role' => \App\Http\Middleware\Role::class,
+        'registration_step' => \App\Http\Middleware\RegistrationStepMiddleware::class
     ];
 }
