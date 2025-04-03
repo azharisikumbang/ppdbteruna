@@ -3,18 +3,49 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
 {
     protected $fillable = [
-        'name_student', 'registration_id', 'address_student', 'phone_student', 'majoring_student', 'code_user', 'status_student', 'parent_student', 'agama_student', 'gender_student', 'nik_student', 'desa_student', 'kecamatan_student', 'kota_student', 'provinsi_student', 'pos_student', 'rt_rw_student', 'transport_student', 'distance_student', 'home_student', 'accommodation_student', 'blood_student', 'siblings_student', 'child_order_student',
+        "nama_lengkap",
+        "nik",
+        "jenis_kelamin",
+        "tempat_lahir",
+        "tanggal_lahir",
+        "status_orangtua",
+        "status_anak",
+        "urutan_dalam_keluarga",
+        "jumlah_bersaudara",
+        "agama",
+        "golongan_darah",
+        "nomor_handphone",
+        "alamat",
+        "rt",
+        "rw",
+        "desa",
+        "kecamatan",
+        "kota",
+        "provinsi",
+        "kode_pos",
+        "transportasi",
+        "jarak_rumah_sekolah",
+        "jenis_bantuan_pemerintah",
+        "kepemilikan_rumah",
+        "photo_id",
+        "registration_id",
     ];
 
-    protected $primaryKey = 'id_student';
-
-    public function student()
+    public function registration(): BelongsTo
     {
-        return $this->belongsToMany(\App\Models\Registration::class, 'registration_id');
+        return $this->belongsTo(Registration::class);
+    }
+
+    public function pasPhoto(): HasOne
+    {
+        return $this
+            ->hasOne(File::class, 'id', 'photo_id');
     }
 
 

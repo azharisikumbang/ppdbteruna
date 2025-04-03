@@ -6,11 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Registration extends Model
 {
+    const STEP_AWAL = 0;
+
+    const STEP_PEMBERKASAN = 1;
+
+    const STEP_DATA_SEKOLAH = 2;
+
     protected $fillable = [
         'registration_status',
-        'registrations_current_step',
+        'registration_current_step',
         'validated_by',
-        'current_user_id'
+        'current_user_id',
+        'registration_code'
     ];
 
 

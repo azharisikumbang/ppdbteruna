@@ -6,15 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    protected $fillable = [
-       'name_file', 'type_file', 'registration_id', 'code_user'
-   ];
 
-    protected $primaryKey = 'id_files';
+    const PAS_PHOTO = 'pas-photo';
+
+    protected $fillable = [
+        'filename',
+        'filetype',
+        'filepath',
+        'registration_id'
+    ];
 
     public function student()
     {
-        return $this->belongsTo(\App\Models\Registration::class, 'id_registration');
+        return $this->belongsTo(\App\Models\Registration::class, 'registration_id');
     }
 
 }

@@ -26,7 +26,7 @@ return [
     'status_pendaftar' => ['kandung', 'tiri'],
     'orangtua_pendaftar' => ['lengkap', 'yatim', 'piatu', 'yatim piatu'],
     'agama_pendaftar' => ['islam', 'kristen protestan', 'kristen katolik', 'buddha', 'hindu', 'lainnya'],
-    'bantuan_pendaftar' => ['KPS', 'KIP', 'KKS', 'PKH', 'lainnya', 'tidak'],
+    'bantuan_pendaftar' => ['KPS', 'KIP', 'KKS', 'PKH', 'Lainnya', 'Bukan Penerima Bantuan'],
     'home_pendaftar' => ['bersama orang tua', 'bersama saudara', 'kontrak', 'kost', 'lainnya'],
     'pekerjaan_orangtua' => ['petani', 'pedagang', 'wiraswasta', 'buruh', 'PNS', 'TNI / POLRI', 'Pegawai BUMN'],
     'pendidikan_orangtua' => ['Tidak Mempunyai Riwayat Pendidikan', 'SD / Sederajat', 'SLTP / Sederajat', 'SLTA / Sederajat', 'Diploma I/II', 'Akademi / Diploma III / S. Muda', 'Diploma IV / Strata I (S1)', 'Strata II (S2)', 'Strata III (S3)'],
@@ -47,6 +47,6 @@ return [
         'pembayaran',
         'selesai'
     ],
-    'upload_path' => 'public/files/',
+    'upload_path' => 'files/',
     'images_path' => 'public/images/'
 ];
