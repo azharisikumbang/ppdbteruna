@@ -17,7 +17,7 @@ class CreateRegistrationsTable extends Migration
             $table->id();
             $table->string('registration_status', 32)->default('PENDING');
             $table->string('registration_current_step', 32);
-            $table->foreignId('validated_by')->constrained('users'); // admin user id
+            $table->foreignId('validated_by')->nullable()->constrained('users'); // admin user id
             $table->foreignId('current_user_id')->constrained('users'); // current user id
             $table->timestamps();
         });
