@@ -28,67 +28,57 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        $validate = Validator::make($request->all(),[
-            'email' => 'required|email|unique:users,email_user',
-            'username' => 'required|unique:users,username_user',
+        $validate = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email',
             'password' => 'required'
         ], [
             'required' => 'Kolom :attribute masih kosong!',
-            'unique' => 'Maaf, username telah digunakan!',
+            'unique' => 'Maaf, email telah digunakan!',
         ]);
 
-        if (!$validate->fails()) {
-            $code_user = Str::lower(Str::random(32));
-            User::create([
-                'email_user' => $request->email,
-                'username_user' => $request->username,
-                'password_user' => Hash::make($request->password),
-                'code_user' => $code_user,
-                'role_user' => 'student'
-            ])->save();
+        if (!$validate->fails())
+        {
+            $user = User::create([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'student'
+            ]);
 
-            if (Registration::orderBy('created_at', 'desc')->first()) {
-                $id_registration = Registration::orderBy('created_at', 'desc')->first()->id_registration;
-                if (strpos($id_registration, date("Y"))) {
-                    $id_registration = (int) str_replace("T", "", $id_registration);
-                    $registration_id = $id_registration + 1;
-                } else {
-                    $registration_id = date("Y") . '0001';
+            if (Registration::orderBy('created_at', 'desc')->first())
+            {
+                $registration_code = Registration::orderBy('created_at', 'desc')->first()->registration_code;
+                if (strpos($registration_code, date("Y")))
+                {
+                    $registration_code = (int) str_replace("T", "", $registration_code);
+                    $registration_code = $registration_code + 1;
+                } else
+                {
+                    $registration_code = date("Y") . '0001';
                 }
-            } else {
-                $registration_id = date("Y") . '0001';
+            } else
+            {
+                $registration_code = date("Y") . '0001';
             }
 
             Registration::Create([
-                'id_registration' => "T" . $registration_id,
-                'status_registration' => 'pending',
-                'current_registration' => 'awal',
-                'code_user' => $code_user
-            ]);
-
-            Student::Create([
-                'registration_id' => "T" . $registration_id,
-                'code_user' => $code_user
-            ]);
-
-            Score::Create([
-                'registration_id' => "T" . $registration_id
-            ]);
-
-            ParentStudent::Create([
-                'registration_id' => "T" . $registration_id
+                'registration_code' => "T" . $registration_code,
+                'registration_status' => 'pending',
+                'registration_current_step' => 'awal',
+                'current_user_id' => $user->id
             ]);
 
             // Set session
             $request->session()->put('username', $request->username);
-            $request->session()->put('registration_id', "T" . $registration_id);
-            $request->session()->put('code_user', $code_user);
+            $request->session()->put('registration_code', "T" . $registration_code);
+            $request->session()->put('current_user_id', $user->id);
             $request->session()->put('role', 'student');
+
             return redirect('/siswa');
         }
 
         $message = $validate->errors()->first();
         $request->session()->flash('message', $message);
+
         return redirect('/daftar');
     }
 
@@ -100,7 +90,7 @@ class RegisterController extends Controller
 
     public function addAdmin(Request $request)
     {
-        $validate = Validator::make($request->all(),[
+        $validate = Validator::make($request->all(), [
             'username' => 'required|unique:users,username_user',
             'password' => 'required'
         ], [
@@ -108,13 +98,14 @@ class RegisterController extends Controller
             'unique' => 'Maaf, username telah digunakan!',
         ]);
 
-        if (!$validate->fails()) {
-            $code_user = Str::lower(Str::random(32));
+        if (!$validate->fails())
+        {
+            $current_user_id = Str::lower(Str::random(32));
             User::create([
-                'email_user' => $request->email,
+                'email' => $request->email,
                 'username_user' => $request->username,
                 'password_user' => Hash::make($request->password),
-                'code_user' => $code_user,
+                'current_user_id' => $current_user_id,
                 'role_user' => 'admin'
             ])->save();
 
