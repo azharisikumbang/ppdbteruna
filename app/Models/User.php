@@ -9,6 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements AuthenticatableContract, AuthorizableContract
 {
+    const ROLE_SISWA = 'student';
+
+    const ROLE_ADMIN = 'admin';
+
+    const ROLE_SUPER_ADMIN = 'super-admin';
+
     protected $fillable = [
         'email',
         'email_verified_at',
