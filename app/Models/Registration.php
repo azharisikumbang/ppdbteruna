@@ -12,12 +12,16 @@ class Registration extends Model
 
     const STEP_DATA_SEKOLAH = 2;
 
+    const STEP_DATA_ORANGTUA = 3;
+
     protected $fillable = [
         'registration_status',
         'registration_current_step',
         'validated_by',
         'current_user_id',
-        'registration_code'
+        'registration_code',
+        'kode_jurusan_diambil',
+        'nama_jurusan_diambil'
     ];
 
 

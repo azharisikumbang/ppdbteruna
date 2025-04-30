@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
@@ -48,5 +49,13 @@ class Student extends Model
             ->hasOne(File::class, 'id', 'photo_id');
     }
 
+    public function previousSchool(): HasOne
+    {
+        return $this->hasOne(PreviousSchool::class);
+    }
 
+    public function finalTestScores(): HasMany
+    {
+        return $this->hasMany(FinalTestSubjectScore::class);
+    }
 }

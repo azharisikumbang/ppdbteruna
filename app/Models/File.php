@@ -9,6 +9,12 @@ class File extends Model
 
     const PAS_PHOTO = 'pas-photo';
 
+    const IJAZAH = 'ijazah';
+
+    const SKHUN = 'skhun';
+
+    const BUKTI_PEMBAYATAN = 'bukti-pembayaran';
+
     protected $fillable = [
         'filename',
         'filetype',
