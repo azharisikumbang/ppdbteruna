@@ -18,6 +18,22 @@ class LoginTest extends TestCase
         $this->get('masuk')->assertOk();
     }
 
+    public function testItRedirectCorrectlyWhenAlreadyAuthenticated()
+    {
+        $user = factory(User::class)->create([
+            'email' => 'demouser@local.test',
+            'password' => Hash::make('demopassword'),
+            'role' => User::ROLE_SISWA
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->get('/masuk');
+        $response->assertRedirect($user->getAuthHome());
+
+        $this->assertAuthenticatedAs($user);
+    }
+
     public function testItAuthenticateTheCorrectUser()
     {
         $this->withoutExceptionHandling();

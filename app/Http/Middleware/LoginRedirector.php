@@ -15,13 +15,8 @@ class LoginRedirector
      */
     public function handle($request, Closure $next)
     {
-        if ($request->session()->has('username') || $request->session()->has('registration_id')) {
-            if ($request->session()->get('role') === 'admin') {
-                return redirect('/admin');
-            }
-
-            return redirect('/siswa');
-        }
+        if ($user = auth()->user())
+            return redirect()->to($user->getAuthHome());
 
         return $next($request);
     }
