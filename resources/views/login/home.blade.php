@@ -5,8 +5,10 @@
 @section('content')
 <div class="w-full max-w-sm mx-auto mt-20">
 
-  @if($message)
-  {!! getErrorMessage($message) !!}
+  @if($errors->any())
+  @foreach ($errors->all() as $error)
+  {!! getErrorMessage($error) !!}
+  @endforeach
   @endif
   <form class="bg-white shadow-md rounded px-6 pt-6 pb-8 m-2" method="POST" action="{{ url('/masuk') }}">
     @csrf

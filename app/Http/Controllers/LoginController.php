@@ -19,24 +19,7 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
-        $data = [
-            'message' => '',
-            'email' => '',
-            'csrf_token' => $request->session()->get('_token')
-
-        ];
-        $session = $request->session()->all();
-
-        if (isset($session['message']))
-        {
-
-            $data = [
-                'message' => $request->session()->get('message')['message'],
-                'email' => $request->session()->get('message')['email']
-            ];
-        }
-
-        return view('login.home', $data);
+        return view('login.home');
     }
 
     public function verify(LoginRequest $request)
