@@ -47,6 +47,6 @@ return [
         'pembayaran',
         'selesai'
     ],
-    'upload_path' => 'files/',
+    'upload_path' => 'uploaded/',
     'images_path' => 'public/images/'
 ];
