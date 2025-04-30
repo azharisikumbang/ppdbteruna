@@ -20,7 +20,7 @@ use Tests\TestCase;
 class SimpanDataSekolahTest extends TestCase
 {
 
-    use RefreshDatabase, WithFaker, DatabaseMigrations;
+    use RefreshDatabase, WithFaker;
 
     public function testSeeFormSekolahPage()
     {
