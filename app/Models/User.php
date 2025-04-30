@@ -37,4 +37,30 @@ class User extends Authenticatable implements AuthenticatableContract, Authoriza
     {
         return $this->hasOne(Registration::class, 'current_user_id');
     }
+
+    public function getAuthHome(): string
+    {
+        $route = null;
+
+        switch ($this->role)
+        {
+            case self::ROLE_ADMIN:
+                $route = '/admin';
+                break;
+
+            case self::ROLE_SISWA:
+                $route = '/siswa';
+                break;
+
+            case self::ROLE_SUPER_ADMIN:
+                $route = '/super-admin';
+                break;
+
+            default:
+                $route = null;
+                break;
+        }
+
+        return $route;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,43 +39,21 @@ class LoginController extends Controller
         return view('login.home', $data);
     }
 
-    public function verify(Request $request)
+    public function verify(LoginRequest $request)
     {
-        $message = 'email atau password salah, silahkan coba lagi!';
+        if (Auth::attempt($request->validated()))
+            return redirect()->to(auth()->user()->getAuthHome());
 
-        $validate = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        if ($validate->fails())
-        {
-            $message = "Form isian masih kosong";
-        } else
-        {
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-            {
-                $request->session()->regenerate();
-
-                dd(auth()->user());
-
-                if (Auth::user()->role == 'admin')
-                {
-                    return redirect('/admin');
-                }
-
-                return redirect('/siswa');
-            }
-        }
-
-        $request->session()->flash('message', ['message' => $message, 'email' => $request->email]);
-
-        return redirect('/masuk');
+        return redirect()
+            ->back()
+            ->withInput(['email' => $request->get('email')])
+            ->withErrors(['invalid_credentials' => 'email atau password salah, silahkan coba lagi!']);
     }
 
     public function logout(Request $request)
     {
-        $request->session()->flush();
+        Auth::logout();
+
         return redirect('/');
     }
 
