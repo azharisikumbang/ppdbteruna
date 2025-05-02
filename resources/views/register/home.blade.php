@@ -32,10 +32,13 @@
         </div>
     </div>
     <div class="w-full max-w-sm mx-auto mt-8">
-        @if($message)
-        {!! getErrorMessage($message) !!}
+        @if($errors->any())
+        @foreach ($errors->all() as $error)
+        {!! getErrorMessage($error) !!}
+        @endforeach
         @endif
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="{{ url('/daftar') }}">
+            @csrf
             <div class="mb-3 text-center ">
                 <h3 class="font-bold text-lg text-gray-700">Daftarkan Akun anda</h3>
             </div>
@@ -43,19 +46,26 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
                     Email
                 </label>
-                <input type="hidden" name="_token" value="{{ $csrf_token }}">
                 <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    name="email" id="name" type="email" placeholder="Email" autofocus="autofocus">
+                    name="email" id="name" type="email" placeholder="Email" autofocus="autofocus"
+                    value="{{ old('email') }}">
             </div>
-            <div class="mb-6">
+            <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                     Kata Sandi
                 </label>
                 <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     name="password" type="password" placeholder="password">
-                <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                    Ketik Ulang Kata Sandi
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="password_confirmation" type="password" placeholder="password confirmation">
             </div>
             <div class="flex items-center justify-between mb-6">
                 <button type="submit"

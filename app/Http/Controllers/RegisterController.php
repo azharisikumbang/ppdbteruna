@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRegistrationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -21,65 +22,20 @@ class RegisterController extends Controller
      */
     public function index(Request $request)
     {
-        $data['message'] = $request->session()->get('message');
-        $data['csrf_token'] = $request->session()->get('_token');
-        return view('register.home', $data);
+        return view('register.home');
     }
 
-    public function store(Request $request)
+    public function store(UserRegistrationRequest $request)
     {
-        $validate = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required'
-        ], [
-            'required' => 'Kolom :attribute masih kosong!',
-            'unique' => 'Maaf, email telah digunakan!',
+        $validated = $request->validated();
+
+        User::create([
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => User::ROLE_SISWA
         ]);
 
-        if (!$validate->fails())
-        {
-            $user = User::create([
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => 'student'
-            ]);
-
-            if (Registration::orderBy('created_at', 'desc')->first())
-            {
-                $registration_code = Registration::orderBy('created_at', 'desc')->first()->registration_code;
-                if (strpos($registration_code, date("Y")))
-                {
-                    $registration_code = (int) str_replace("T", "", $registration_code);
-                    $registration_code = $registration_code + 1;
-                } else
-                {
-                    $registration_code = date("Y") . '0001';
-                }
-            } else
-            {
-                $registration_code = date("Y") . '0001';
-            }
-
-            Registration::Create([
-                'registration_code' => "T" . $registration_code,
-                'registration_status' => 'pending',
-                'registration_current_step' => 'awal',
-                'current_user_id' => $user->id
-            ]);
-
-            // Set session
-            $request->session()->put('username', $request->username);
-            $request->session()->put('registration_code', "T" . $registration_code);
-            $request->session()->put('current_user_id', $user->id);
-            $request->session()->put('role', 'student');
-
-            return redirect('/siswa');
-        }
-
-        $message = $validate->errors()->first();
-        $request->session()->flash('message', $message);
-
-        return redirect('/daftar');
+        return redirect()->to('/masuk');
     }
 
     public function newAdmin(Request $request)
