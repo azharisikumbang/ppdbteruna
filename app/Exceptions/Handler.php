@@ -50,15 +50,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if (
-            $exception instanceof ValidationException &&
-            App::environment(['testing'])
-        )
-        {
-            dd($exception->validator->getMessageBag());
-        }
-
-        if (App::environment(['local', 'staging']))
+        if (App::environment(['local', 'staging', 'testing']))
         {
             return parent::render($request, $exception);
         }
