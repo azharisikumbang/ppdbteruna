@@ -11,6 +11,7 @@
     "require": {
         "php": "^7.2.5|^7.4",
         "barryvdh/laravel-dompdf": "^0.8.6",
+        "calebporzio/sushi": "^2.4",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^3.0",
         "illuminate/cookie": "^7.9",
